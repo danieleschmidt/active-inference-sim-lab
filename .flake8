@@ -1,0 +1,31 @@
+[flake8]
+max-line-length = 88
+extend-ignore = 
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # E501: line too long (handled by black)
+    E501,
+    # W503: line break before binary operator (conflicts with black)
+    W503,
+    # F401: imported but unused (handled by isort)
+    F401
+exclude = 
+    .git,
+    __pycache__,
+    build,
+    dist,
+    *.egg-info,
+    .pytest_cache,
+    .venv,
+    venv,
+    .tox,
+    docs/_build
+per-file-ignores =
+    # Ignore unused imports in __init__.py files
+    __init__.py:F401
+    # Ignore line length in test files for long test names
+    tests/*.py:E501
+max-complexity = 10
+import-order-style = google
+application-import-names = active_inference
+docstring-convention = numpy

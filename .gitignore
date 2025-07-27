@@ -205,3 +205,114 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Active Inference Simulation Lab specific
+# C++ build artifacts
+build*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.make
+*.cmake
+!CMakeLists.txt
+!*.cmake
+
+# Object files
+*.o
+*.obj
+*.ko
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Project specific
+data/
+logs/
+checkpoints/
+models/
+results/
+experiments/
+wandb/
+.wandb/
+
+# MuJoCo
+mujoco_key.txt
+mjkey.txt
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Profiling
+*.prof
+*.stats
+profile_*.txt
+
+# Docker
+.dockerignore
+
+# Node.js (for semantic-release)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Archive files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip

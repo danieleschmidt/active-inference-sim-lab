@@ -1,0 +1,211 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "pybind11"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "active-inference-sim-lab"
+version = "0.1.0"
+authors = [
+    {name = "Active Inference Research Team", email = "team@active-inference.org"},
+]
+description = "Lightweight toolkit for building active inference agents based on the Free Energy Principle"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["active-inference", "free-energy-principle", "reinforcement-learning", "machine-learning", "bayesian"]
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.5.0",
+    "gymnasium[all]>=0.27.0",
+    "pybind11>=2.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "flake8>=4.0.0",
+    "pylint>=2.12.0",
+    "mypy>=0.910",
+    "pre-commit>=2.17.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "pytest-xdist>=2.5.0",
+    "pytest-timeout>=2.1.0",
+    "bandit>=1.7.0",
+    "safety>=2.0.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "pytest-xdist>=2.5.0",
+    "pytest-timeout>=2.1.0",
+    "hypothesis>=6.0.0",
+]
+docs = [
+    "sphinx>=4.3.0",
+    "sphinx-rtd-theme>=1.0.0",
+    "nbsphinx>=0.8.0",
+    "breathe>=4.31.0",
+    "myst-parser>=0.16.0",
+]
+mujoco = [
+    "mujoco>=2.3.0",
+    "dm_control>=1.0.0",
+]
+visualization = [
+    "plotly>=5.0.0",
+    "seaborn>=0.11.0",
+    "tensorboard>=2.8.0",
+    "wandb>=0.12.0",
+]
+benchmarks = [
+    "stable-baselines3>=1.6.0",
+    "optuna>=3.0.0",
+    "ray[tune]>=2.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/active-inference-sim-lab"
+Documentation = "https://active-inference-sim-lab.readthedocs.io"
+Repository = "https://github.com/your-org/active-inference-sim-lab.git"
+"Bug Tracker" = "https://github.com/your-org/active-inference-sim-lab/issues"
+
+[project.scripts]
+active-inference = "active_inference.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["active_inference"]
+known_third_party = ["numpy", "scipy", "matplotlib", "gymnasium", "pytest"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "gymnasium.*",
+    "mujoco.*",
+    "tensorboard.*",
+    "wandb.*",
+    "plotly.*",
+]
+ignore_missing_imports = true
+
+[tool.pylint.messages_control]
+disable = [
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-instance-attributes",
+    "duplicate-code",
+    "fixme",
+]
+
+[tool.pylint.format]
+max-line-length = 88
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+python_classes = [
+    "Test*",
+]
+python_functions = [
+    "test_*",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "benchmark: marks tests as benchmarks",
+    "gpu: marks tests as requiring GPU",
+]
+timeout = 300
+timeout_method = "thread"
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/build/*",
+    "*/dist/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+precision = 2
+
+[tool.bandit]
+exclude_dirs = ["tests", "build", "dist"]
+skips = ["B101", "B601"]

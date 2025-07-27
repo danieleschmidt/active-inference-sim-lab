@@ -1,0 +1,190 @@
+version: '3.8'
+
+services:
+  # Development environment
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - build_cache:/workspace/build
+      - python_cache:/home/developer/.cache
+    environment:
+      - PYTHONPATH=/workspace/src
+      - CMAKE_BUILD_TYPE=Debug
+      - WANDB_MODE=offline
+    ports:
+      - "8888:8888"  # Jupyter
+      - "6006:6006"  # TensorBoard
+      - "8080:8080"  # Development server
+    working_dir: /workspace
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+  # Runtime environment
+  runtime:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./models:/app/models
+    environment:
+      - PYTHONPATH=/app/src
+    ports:
+      - "8000:8000"  # API server
+    command: python3 examples/basic_agent.py
+
+  # Testing environment
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    volumes:
+      - .:/workspace
+      - test_cache:/workspace/build
+    environment:
+      - PYTHONPATH=/workspace/src
+    working_dir: /workspace
+    command: |
+      bash -c "
+        cd build && ctest --output-on-failure &&
+        cd .. && python -m pytest tests/ -v --cov=src
+      "
+
+  # Jupyter notebook server
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - jupyter_cache:/home/developer/.jupyter
+    environment:
+      - PYTHONPATH=/workspace/src
+    ports:
+      - "8888:8888"
+    working_dir: /workspace
+    command: |
+      bash -c "
+        pip install jupyter &&
+        jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root
+      "
+
+  # TensorBoard server
+  tensorboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - ./logs:/workspace/logs
+    ports:
+      - "6006:6006"
+    command: tensorboard --logdir=/workspace/logs --host=0.0.0.0 --port=6006
+
+  # Documentation builder
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - docs_cache:/workspace/docs/_build
+    working_dir: /workspace
+    command: |
+      bash -c "
+        pip install sphinx sphinx-rtd-theme breathe &&
+        cd docs && make html &&
+        python -m http.server 8000 --directory _build/html
+      "
+    ports:
+      - "8000:8000"
+
+  # Benchmark runner
+  benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - ./results:/workspace/results
+    environment:
+      - PYTHONPATH=/workspace/src
+      - OMP_NUM_THREADS=4
+    working_dir: /workspace
+    command: python benchmarks/run_all.py
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+
+  # Database for experiment tracking
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=active_inference
+      - POSTGRES_USER=aiuser
+      - POSTGRES_PASSWORD=aipassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Redis for caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana:/etc/grafana/provisioning
+
+volumes:
+  build_cache:
+  python_cache:
+  test_cache:
+  jupyter_cache:
+  docs_cache:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    name: active_inference_network

@@ -1,0 +1,66 @@
+{
+  "name": "active-inference-sim-lab",
+  "version": "0.1.0",
+  "description": "Lightweight toolkit for building active inference agents based on the Free Energy Principle",
+  "scripts": {
+    "build": "python setup.py build_ext --inplace",
+    "build:cpp": "mkdir -p build && cd build && cmake .. && make -j$(nproc)",
+    "build:python": "pip install -e .",
+    "build:docs": "cd docs && make html",
+    "test": "pytest tests/ -v --cov=src --cov-report=html --cov-report=term",
+    "test:cpp": "cd build && ctest --output-on-failure",
+    "test:python": "pytest tests/python/ -v",
+    "test:integration": "pytest tests/integration/ -v --timeout=300",
+    "test:benchmark": "python benchmarks/run_all.py",
+    "lint": "flake8 src tests && pylint src",
+    "lint:cpp": "clang-format --dry-run --Werror src/**/*.cpp include/**/*.h",
+    "lint:python": "flake8 src tests examples",
+    "format": "black src tests examples && isort src tests examples",
+    "format:cpp": "clang-format -i src/**/*.cpp include/**/*.h",
+    "format:python": "black src tests examples && isort src tests examples",
+    "typecheck": "mypy src",
+    "clean": "rm -rf build/ dist/ *.egg-info/ __pycache__/ .pytest_cache/ .coverage htmlcov/",
+    "clean:all": "npm run clean && find . -name '*.pyc' -delete && find . -name '__pycache__' -type d -exec rm -rf {} +",
+    "dev": "python -m active_inference.server --dev",
+    "docs:serve": "cd docs/_build/html && python -m http.server 8000",
+    "docs:watch": "sphinx-autobuild docs docs/_build/html",
+    "install:dev": "pip install -e .[dev]",
+    "install:test": "pip install -e .[test]",
+    "install:docs": "pip install -e .[docs]",
+    "benchmark": "python benchmarks/compare_baselines.py",
+    "profile": "python -m cProfile -o profile.stats examples/basic_agent.py",
+    "coverage": "pytest --cov=src --cov-report=html tests/",
+    "security": "bandit -r src/",
+    "pre-commit": "pre-commit run --all-files",
+    "version": "python setup.py --version",
+    "release": "python -m build && twine upload dist/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/active-inference-sim-lab.git"
+  },
+  "keywords": [
+    "active-inference",
+    "free-energy-principle",
+    "reinforcement-learning",
+    "machine-learning",
+    "artificial-intelligence",
+    "uncertainty",
+    "bayesian",
+    "simulation"
+  ],
+  "author": "Active Inference Research Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/your-org/active-inference-sim-lab/issues"
+  },
+  "homepage": "https://github.com/your-org/active-inference-sim-lab#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "semantic-release": "^21.0.0"
+  }
+}
