@@ -1,0 +1,111 @@
+{
+    "name": "Active Inference Sim Lab",
+    "image": "mcr.microsoft.com/vscode/devcontainers/python:3.11-bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "ppa": true,
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest",
+            "dockerDashComposeVersion": "v2"
+        }
+    },
+    "runArgs": [
+        "--init"
+    ],
+    "remoteUser": "vscode",
+    "updateContentCommand": "sudo apt-get update && sudo apt-get upgrade -y",
+    "postCreateCommand": ".devcontainer/post-create.sh",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.linting.enabled": true,
+                "python.linting.pylintEnabled": false,
+                "python.linting.flake8Enabled": true,
+                "python.linting.mypyEnabled": true,
+                "python.formatting.provider": "black",
+                "python.sortImports.args": [
+                    "--profile",
+                    "black"
+                ],
+                "python.testing.pytestEnabled": true,
+                "python.testing.unittestEnabled": false,
+                "python.testing.pytestArgs": [
+                    "tests"
+                ],
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.organizeImports": true
+                },
+                "files.trimTrailingWhitespace": true,
+                "files.insertFinalNewline": true,
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "git.autofetch": true,
+                "git.enableSmartCommit": true,
+                "cmake.configureOnOpen": true,
+                "C_Cpp.default.cppStandard": "c++17",
+                "C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.flake8",
+                "ms-python.mypy-type-checker",
+                "ms-python.black-formatter",
+                "ms-python.isort",
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake",
+                "ms-vscode.makefile-tools",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "GitHub.vscode-pull-request-github",
+                "GitLab.gitlab-workflow",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode-remote.remote-containers",
+                "redhat.vscode-yaml",
+                "ms-vscode.vscode-json",
+                "bradlc.vscode-tailwindcss",
+                "visualstudioexptteam.vscodeintellicode",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens",
+                "donjayamanne.githistory",
+                "ms-vsliveshare.vsliveshare",
+                "formulahendry.code-runner",
+                "njpwerner.autodocstring",
+                "ms-python.debugpy",
+                "charliermarsh.ruff"
+            ]
+        }
+    },
+    "forwardPorts": [
+        8000,
+        8888,
+        6006
+    ],
+    "portsAttributes": {
+        "8000": {
+            "label": "Development Server"
+        },
+        "8888": {
+            "label": "Jupyter"
+        },
+        "6006": {
+            "label": "TensorBoard"
+        }
+    },
+    "mounts": [
+        "source=${localWorkspaceFolder}/.devcontainer/bashrc-append.sh,target=/home/vscode/.bashrc-append,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder}/.devcontainer/zshrc-append.sh,target=/home/vscode/.zshrc-append,type=bind,consistency=cached"
+    ]
+}
