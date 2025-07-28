@@ -1,0 +1,56 @@
+# Include package metadata
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+include requirements*.txt
+include setup.py
+include MANIFEST.in
+
+# Include C++ source and headers
+recursive-include cpp *.cpp *.hpp *.h
+recursive-include include *.hpp *.h
+
+# Include configuration files
+include .editorconfig
+include .gitignore
+include .pre-commit-config.yaml
+
+# Include documentation source
+recursive-include docs *.md *.rst *.py *.txt *.yml *.yaml
+recursive-include docs *.ipynb *.png *.jpg *.svg
+
+# Include examples and scripts
+recursive-include examples *.py *.cpp *.yml *.yaml *.md
+recursive-include scripts *.py *.sh *.bat
+
+# Include test data and configs
+recursive-include tests *.py *.yml *.yaml *.json
+recursive-include data *.json *.yml *.yaml *.xml
+
+# Exclude development and build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dll
+global-exclude *.dylib
+global-exclude .git*
+global-exclude .DS_Store
+global-exclude *.tmp
+global-exclude *.bak
+global-exclude *.swp
+global-exclude *~
+
+# Exclude build directories
+prune build
+prune dist
+prune *.egg-info
+prune .tox
+prune .pytest_cache
+prune .mypy_cache
+prune .coverage
+prune htmlcov
+prune .venv
+prune venv
