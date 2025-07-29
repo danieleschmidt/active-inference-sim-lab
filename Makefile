@@ -158,6 +158,20 @@ lint:
 	@echo "Running C++ linting..."
 	@find cpp/ include/ -name "*.cpp" -o -name "*.hpp" -o -name "*.h" | xargs clang-tidy
 
+# Security scanning targets
+.PHONY: security-scan
+security-scan:
+	@echo "Running comprehensive security scans..."
+	@$(PYTHON) -m bandit -r src/ -f json -o bandit-report.json
+	@$(PYTHON) -m safety check --json --output safety-report.json
+	@detect-secrets scan --baseline .secrets.baseline
+
+.PHONY: vulnerability-check
+vulnerability-check:
+	@echo "Checking for known vulnerabilities..."
+	@$(PYTHON) -m safety check
+	@$(PYTHON) -m pip-audit
+
 # Documentation
 .PHONY: docs
 docs:

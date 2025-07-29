@@ -33,3 +33,12 @@ indent_size = 2
 
 [.github/workflows/*.{yml,yaml}]
 indent_size = 2
+
+[*.{toml,cfg,ini}]
+indent_size = 2
+
+[{CMakeLists.txt,*.cmake}]
+indent_size = 2
+
+[Dockerfile*]
+indent_size = 2

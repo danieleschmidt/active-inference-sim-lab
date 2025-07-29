@@ -83,4 +83,72 @@ cmake_install.cmake
 # Jupyter
 .ipynb_checkpoints
 profile_default/
-EOF < /dev/null
+
+# Security and secrets
+*.pem
+*.key
+*.p12
+*.crt
+*.csr
+*.jks
+*.keystore
+.aws/
+.gcp/
+.azure/
+secrets.yml
+secrets.yaml
+.env.local
+.env.production
+.secrets/
+
+# IDE and editor specific
+.vscode/settings.json
+.vscode/launch.json
+.idea/workspace.xml
+.idea/tasks.xml
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary and cache
+*.tmp
+*.temp
+*.cache
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage.*
+coverage.xml
+.nyc_output/
+
+# Package managers
+node_modules/
+.pnpm-store/
+.yarn/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Container and deployment
+.dockerignore
+docker-compose.override.yml
+.kubernetes/
+.helm/
+
+# Machine learning specific
+*.model
+*.weights
+*.h5
+*.pb
+*.onnx
+.wandb/
+mlruns/
+experiments/
+checkpoints/
