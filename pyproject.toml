@@ -180,3 +180,10 @@ force_grid_wrap = 0
 use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
+
+[tool.bandit]
+exclude_dirs = ["tests", "test_*", "*_test.py", "venv", ".venv", "build"]
+skips = ["B101", "B601"]  # Skip assert_used and shell_injection for tests
+
+[tool.bandit.assert_used]
+skips = ["*_test.py", "test_*.py", "tests/*"]

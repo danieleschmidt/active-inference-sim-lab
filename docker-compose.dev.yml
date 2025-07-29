@@ -1,0 +1,123 @@
+# Development Docker Compose configuration
+# For local development with services and monitoring
+
+version: '3.8'
+
+services:
+  # Main development container
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: active-inference-dev
+    volumes:
+      - .:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ~/.gitconfig:/home/vscode/.gitconfig:ro
+      - ~/.ssh:/home/vscode/.ssh:ro
+    ports:
+      - "8000:8000"    # Development server
+      - "8888:8888"    # Jupyter Lab
+      - "6006:6006"    # TensorBoard
+      - "8050:8050"    # Dash apps
+    environment:
+      - PYTHONPATH=/workspace/src
+      - CUDA_VISIBLE_DEVICES=""
+      - TENSORBOARD_LOG_DIR=/workspace/logs
+    command: /bin/bash -c "while sleep 1000; do :; done"
+    networks:
+      - dev-network
+
+  # PostgreSQL for experiment tracking
+  postgres:
+    image: postgres:15-alpine
+    container_name: active-inference-postgres
+    environment:
+      POSTGRES_DB: experiments
+      POSTGRES_USER: ailab
+      POSTGRES_PASSWORD: development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - dev-network
+
+  # Redis for caching and job queues
+  redis:
+    image: redis:7-alpine
+    container_name: active-inference-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - dev-network
+
+  # MLflow for experiment tracking
+  mlflow:
+    image: python:3.11-slim
+    container_name: active-inference-mlflow
+    ports:
+      - "5000:5000"
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=postgresql://ailab:development@postgres:5432/experiments
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
+    volumes:
+      - mlflow_artifacts:/mlflow/artifacts
+    command: >
+      bash -c "pip install mlflow psycopg2-binary &&
+               mlflow server --host 0.0.0.0 --port 5000
+               --backend-store-uri postgresql://ailab:development@postgres:5432/experiments
+               --default-artifact-root /mlflow/artifacts"
+    depends_on:
+      - postgres
+    networks:
+      - dev-network
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: active-inference-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - dev-network
+
+  # Grafana for metrics visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: active-inference-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=development
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - dev-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  mlflow_artifacts:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  dev-network:
+    driver: bridge

@@ -18,3 +18,7 @@ ignore: |
   build/
   dist/
   *.egg-info/
+  .secrets.baseline
+  node_modules/
+  venv/
+  .venv/
