@@ -1,0 +1,117 @@
+name: Security Vulnerability
+description: Report a security vulnerability (use SECURITY.md for sensitive issues)
+title: "[SECURITY]: "
+labels: ["security", "urgent"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **IMPORTANT**: For sensitive security vulnerabilities, please follow our
+        [Security Policy](../SECURITY.md) and report privately.
+        
+        Use this template only for non-sensitive security improvements or
+        publicly known issues.
+        
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: This is NOT a sensitive security vulnerability
+          required: true
+        - label: I have read the SECURITY.md file
+          required: true
+        - label: I have searched existing issues for similar reports
+          required: true
+          
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity Level
+      description: How severe is this security issue?
+      options:
+        - Low - Minor security improvement
+        - Medium - Moderate security concern
+        - High - Significant security issue
+        - Critical - Immediate action required
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: category
+    attributes:
+      label: Security Category
+      description: What type of security issue is this?
+      options:
+        - Dependency Vulnerability
+        - Code Security
+        - Configuration Issue
+        - Documentation Gap
+        - Access Control
+        - Data Protection
+        - Other (please specify)
+    validations:
+      required: true
+      
+  - type: textarea
+    id: description
+    attributes:
+      label: Security Issue Description
+      description: Describe the security issue or improvement
+      placeholder: The issue is...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: impact
+    attributes:
+      label: Potential Impact
+      description: What could happen if this issue is exploited?
+      placeholder: This could lead to...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce (if applicable)
+      description: How can this issue be reproduced?
+      placeholder: |
+        1. Install package...
+        2. Run command...
+        3. Observe security issue...
+        
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment Information
+      description: Relevant environment details
+      placeholder: |
+        - OS: 
+        - Python version:
+        - Package version:
+        - Dependencies:
+        
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommended Solution
+      description: What do you recommend to fix this issue?
+      placeholder: I suggest...
+      
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to CVEs, security advisories, or documentation
+      placeholder: |
+        - CVE-XXXX-XXXX
+        - https://security-advisory-url
+        
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I can help implement a fix for this issue
+        - label: I can provide additional testing for the fix

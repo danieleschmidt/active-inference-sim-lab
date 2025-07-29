@@ -1,0 +1,55 @@
+# Global ownership
+* @terragon-labs/core-maintainers
+
+# Core C++ implementation
+/cpp/ @terragon-labs/cpp-team @terragon-labs/core-maintainers
+/include/ @terragon-labs/cpp-team @terragon-labs/core-maintainers
+CMakeLists.txt @terragon-labs/cpp-team @terragon-labs/core-maintainers
+/cmake/ @terragon-labs/cpp-team @terragon-labs/core-maintainers
+
+# Python implementation
+/src/python/ @terragon-labs/python-team @terragon-labs/core-maintainers
+setup.py @terragon-labs/python-team @terragon-labs/core-maintainers
+pyproject.toml @terragon-labs/python-team @terragon-labs/core-maintainers
+
+# Testing infrastructure
+/tests/ @terragon-labs/testing-team @terragon-labs/core-maintainers
+pytest.ini @terragon-labs/testing-team @terragon-labs/core-maintainers
+/cpp/tests/ @terragon-labs/cpp-team @terragon-labs/testing-team
+
+# Documentation
+/docs/ @terragon-labs/docs-team @terragon-labs/core-maintainers
+README.md @terragon-labs/docs-team @terragon-labs/core-maintainers
+*.md @terragon-labs/docs-team
+
+# Build and deployment
+Makefile @terragon-labs/devops-team @terragon-labs/core-maintainers
+Dockerfile* @terragon-labs/devops-team @terragon-labs/core-maintainers
+docker-compose*.yml @terragon-labs/devops-team @terragon-labs/core-maintainers
+requirements*.txt @terragon-labs/python-team @terragon-labs/devops-team
+
+# CI/CD and automation
+/.github/ @terragon-labs/devops-team @terragon-labs/core-maintainers
+.pre-commit-config.yaml @terragon-labs/devops-team @terragon-labs/core-maintainers
+
+# Security and compliance
+SECURITY.md @terragon-labs/security-team @terragon-labs/core-maintainers
+.secrets.baseline @terragon-labs/security-team @terragon-labs/devops-team
+
+# Configuration files
+.gitignore @terragon-labs/devops-team
+.editorconfig @terragon-labs/devops-team
+.*rc @terragon-labs/devops-team
+*.toml @terragon-labs/python-team @terragon-labs/devops-team
+*.yaml @terragon-labs/devops-team
+*.yml @terragon-labs/devops-team
+
+# Package and release
+MANIFEST.in @terragon-labs/python-team @terragon-labs/devops-team
+LICENSE @terragon-labs/legal-team @terragon-labs/core-maintainers
+CHANGELOG.md @terragon-labs/core-maintainers
+
+# Project governance
+CODE_OF_CONDUCT.md @terragon-labs/core-maintainers
+CONTRIBUTING.md @terragon-labs/core-maintainers
+PROJECT_CHARTER.md @terragon-labs/core-maintainers

@@ -1,0 +1,96 @@
+# Dependabot Configuration Template
+# 
+# This file should be placed at .github/dependabot.yml
+# It configures automated dependency updates for the project
+
+version: 2
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "terragon-labs/core-maintainers"
+      - "terragon-labs/python-team"
+    assignees:
+      - "terragon-labs/devops-team"
+    labels:
+      - "dependencies"
+      - "python"
+      - "auto-update"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    ignore:
+      # Ignore major version updates for critical dependencies
+      - dependency-name: "numpy"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "scipy"
+        update-types: ["version-update:semver-major"]
+    groups:
+      testing:
+        patterns:
+          - "pytest*"
+          - "*test*"
+      linting:
+        patterns:
+          - "black"
+          - "flake8"
+          - "mypy"
+          - "bandit"
+          - "isort"
+      build:
+        patterns:
+          - "setuptools"
+          - "wheel"
+          - "build"
+          - "twine"
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "terragon-labs/devops-team"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "auto-update"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # Docker dependencies (if Dockerfile exists)
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "terragon-labs/devops-team"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "auto-update"
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+
+# Configuration notes:
+# 1. Place this file at .github/dependabot.yml in your repository
+# 2. Adjust team names to match your GitHub organization structure
+# 3. Modify ignore patterns based on your stability requirements  
+# 4. Consider enabling vulnerability-only updates for production dependencies
+# 5. Use groups to batch related dependency updates together
+# 6. Set appropriate open-pull-requests-limit to avoid spam

@@ -1,0 +1,115 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[FEATURE]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! Please provide detailed information
+        about your use case and proposed solution.
+        
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
+        - label: I have read the documentation and this feature doesn't exist
+          required: true
+        - label: This feature aligns with the project's goals
+          required: true
+          
+  - type: dropdown
+    id: category
+    attributes:
+      label: Feature Category
+      description: What type of feature is this?
+      options:
+        - Core Algorithm Enhancement
+        - API Improvement
+        - Performance Optimization
+        - Documentation
+        - Developer Experience
+        - Integration/Compatibility
+        - Visualization
+        - Testing
+        - Other (please specify)
+    validations:
+      required: true
+      
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: I'm trying to do X but can't because...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: What would you like to happen?
+      placeholder: I would like to see...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What other solutions have you considered?
+      placeholder: I considered...
+      
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Describe your specific use case
+      placeholder: In my research/application, I need to...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: example
+    attributes:
+      label: Example Implementation
+      description: Show how you envision this feature being used
+      render: python
+      placeholder: |
+        # Example of how the feature would be used
+        from active_inference import NewFeature
+        
+        feature = NewFeature()
+        result = feature.do_something()
+        
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve my workflow
+        - High - Blocking my current project
+        - Critical - Essential for adoption
+    validations:
+      required: true
+      
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples
+      
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      options:
+        - label: I would be willing to implement this feature and submit a PR
+        - label: I can provide detailed requirements and test cases
+        - label: I can help with documentation for this feature
