@@ -1,0 +1,70 @@
+# CodeQL Configuration for Active Inference Sim Lab
+name: "Enhanced CodeQL Configuration"
+
+# Disable default queries to reduce noise
+disable-default-queries: false
+
+# Query filters
+queries:
+  - name: security-and-quality
+    uses: security-and-quality
+  - name: security-extended
+    uses: security-extended
+  - uses: ./custom-queries/  # Custom security queries if available
+
+# Path filters
+paths-ignore:
+  - "docs/"
+  - "examples/"
+  - "tests/benchmark/"
+  - "*.md"
+  - "*.rst"
+  - "*.txt"
+  - "**/test_*.py"
+  - "**/*_test.py"
+  - "build/"
+  - "dist/"
+  - ".github/"
+
+paths:
+  - "src/"
+  - "cpp/"
+  - "include/"
+  - "scripts/"
+
+# Language-specific configurations
+cpp:
+  # Include system headers for better analysis
+  trace-command: |
+    cmake -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    cmake --build build
+  # Additional compiler arguments
+  compilation-args:
+    - "-std=c++17"
+    - "-O2"
+    - "-Wall"
+    - "-Wextra"
+
+python:
+  # Python version for analysis
+  version: "3.11"
+  # Setup script for dependencies
+  setup-python-dependencies: |
+    python -m pip install --upgrade pip
+    pip install -r requirements.txt
+    pip install -e .
+
+# External libraries configuration
+external-repository-filters:
+  - exclude:
+      classification: "generated"
+  - exclude:
+      classification: "library"
+  - exclude:
+      classification: "test"
+
+# Performance optimization
+packs:
+  - "codeql/cpp-queries"
+  - "codeql/python-queries"
+  - "codeql/security-queries"
