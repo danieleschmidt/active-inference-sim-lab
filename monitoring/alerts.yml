@@ -1,0 +1,123 @@
+# Prometheus alerting rules for Active Inference Sim Lab
+groups:
+  - name: active_inference_alerts
+    rules:
+      # System-level alerts
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is above 80% for {{ $labels.instance }} for more than 5 minutes"
+
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+          component: system
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is above 85% for {{ $labels.instance }}"
+
+      - alert: DiskSpaceLow
+        expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes)) * 100 > 90
+        for: 10m
+        labels:
+          severity: critical
+          component: system
+        annotations:
+          summary: "Low disk space"
+          description: "Disk space usage is above 90% for {{ $labels.device }} on {{ $labels.instance }}"
+
+  - name: application_alerts
+    rules:
+      # Application performance alerts
+      - alert: HighInferenceLatency
+        expr: histogram_quantile(0.95, rate(inference_duration_seconds_bucket[5m])) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          component: inference
+        annotations:
+          summary: "High inference latency"
+          description: "95th percentile inference latency is above 100ms"
+
+      - alert: TrainingJobFailed
+        expr: increase(training_job_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          component: training
+        annotations:
+          summary: "Training job failed"
+          description: "Training job has failed {{ $value }} times in the last 5 minutes"
+
+      - alert: ModelAccuracyDrop
+        expr: model_accuracy < 0.85
+        for: 5m
+        labels:
+          severity: warning
+          component: model
+        annotations:
+          summary: "Model accuracy dropped"
+          description: "Model accuracy has dropped below 85%: {{ $value }}"
+
+      - alert: FreeEnergyDivergence
+        expr: free_energy_value > 1000 or free_energy_value < -1000
+        for: 1m
+        labels:
+          severity: critical
+          component: inference
+        annotations:
+          summary: "Free energy divergence detected"
+          description: "Free energy value is diverging: {{ $value }}"
+
+  - name: resource_alerts
+    rules:
+      # Resource utilization alerts
+      - alert: GPUMemoryHigh
+        expr: nvidia_ml_py_gpu_memory_used_bytes / nvidia_ml_py_gpu_memory_total_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          component: gpu
+        annotations:
+          summary: "High GPU memory usage"
+          description: "GPU memory usage above 90% on {{ $labels.gpu }}"
+
+      - alert: TooManyRestarts
+        expr: increase(python_process_start_time_seconds[1h]) > 5
+        for: 0m
+        labels:
+          severity: warning
+          component: application
+        annotations:
+          summary: "Application restarting frequently"
+          description: "Application has restarted {{ $value }} times in the last hour"
+
+  - name: data_quality_alerts
+    rules:
+      # Data quality monitoring
+      - alert: HighObservationNoise
+        expr: observation_noise_level > 0.5
+        for: 2m
+        labels:
+          severity: warning
+          component: data
+        annotations:
+          summary: "High observation noise detected"
+          description: "Observation noise level is {{ $value }}, above threshold of 0.5"
+
+      - alert: SensorDataMissing
+        expr: sensor_data_missing_rate > 0.1
+        for: 1m
+        labels:
+          severity: critical
+          component: sensors
+        annotations:
+          summary: "High sensor data missing rate"
+          description: "Sensor data missing rate is {{ $value }}, above 10%"

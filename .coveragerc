@@ -1,0 +1,53 @@
+# Coverage configuration for Active Inference Sim Lab
+[run]
+source = src/python/active_inference
+omit = 
+    */tests/*
+    */test_*
+    */__pycache__/*
+    */venv/*
+    */build/*
+    */dist/*
+    */.*
+    */site-packages/*
+    setup.py
+    conftest.py
+
+branch = True
+parallel = True
+concurrency = multiprocessing,thread
+
+[report]
+precision = 2
+show_missing = True
+skip_covered = False
+skip_empty = False
+
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if self.debug:
+    if settings.DEBUG
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+    if __name__ == .__main__.:
+    class .*\bProtocol\):
+    @(abc\.)?abstractmethod
+    # Type checking
+    if TYPE_CHECKING:
+    # Debug code
+    logger\.debug
+    # Defensive assertions
+    assert False
+
+[html]
+directory = htmlcov
+title = Active Inference Coverage Report
+
+[xml]
+output = coverage.xml
+
+[json]
+output = coverage.json
+pretty_print = True

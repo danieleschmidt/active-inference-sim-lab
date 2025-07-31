@@ -1,0 +1,224 @@
+# Performance Testing and Benchmarking Pipeline
+# Copy to .github/workflows/performance.yml and customize as needed
+
+name: Performance
+
+on:
+  pull_request:
+    branches: [main]
+    paths: 
+      - 'src/**'
+      - 'cpp/**'
+      - 'tests/benchmark/**'
+  schedule:
+    - cron: '0 4 * * *'  # Daily at 4 AM
+  workflow_dispatch:
+    inputs:
+      benchmark_suite:
+        description: 'Benchmark suite to run'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - cpp
+          - python
+          - integration
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  python-benchmarks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install dependencies
+        run: |
+          pip install -e .[dev,performance]
+          
+      - name: Run Python benchmarks
+        run: |
+          pytest tests/benchmark/ \
+            --benchmark-only \
+            --benchmark-sort=mean \
+            --benchmark-json=python-benchmarks.json \
+            --benchmark-compare-fail=mean:10% \
+            --benchmark-compare-fail=min:10% \
+            --benchmark-compare-fail=max:20%
+            
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        if: github.event_name != 'pull_request'
+        with:
+          tool: 'pytest'
+          output-file-path: python-benchmarks.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+          
+      - name: Compare PR benchmarks
+        uses: benchmark-action/github-action-benchmark@v1
+        if: github.event_name == 'pull_request'
+        with:
+          tool: 'pytest'
+          output-file-path: python-benchmarks.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          comment-on-alert: true
+          alert-threshold: '120%'
+          fail-on-alert: true
+
+  cpp-benchmarks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake ninja-build \
+            libeigen3-dev libopenblas-dev \
+            libbenchmark-dev
+            
+      - name: Configure CMake
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_BENCHMARKS=ON \
+            -DBUILD_TESTING=ON \
+            -G Ninja
+            
+      - name: Build benchmarks
+        run: |
+          cmake --build build --target all
+          
+      - name: Run C++ benchmarks
+        run: |
+          cd build
+          ./cpp/benchmarks/benchmark_free_energy \
+            --benchmark_format=json \
+            --benchmark_out=cpp-benchmarks.json
+            
+      - name: Store C++ benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        if: github.event_name != 'pull_request'
+        with:
+          tool: 'googlecpp'
+          output-file-path: build/cpp-benchmarks.json
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          auto-push: true
+
+  memory-profiling:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install profiling tools
+        run: |
+          pip install -e .[dev,performance]
+          pip install memory_profiler psutil
+          
+      - name: Profile memory usage
+        run: |
+          mprof run python tests/benchmark/memory_test.py
+          mprof plot -o memory-profile.png
+          
+      - name: Upload memory profile
+        uses: actions/upload-artifact@v3
+        with:
+          name: memory-profile
+          path: |
+            memory-profile.png
+            mprofile_*.dat
+
+  load-testing:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+      - name: Install load testing tools
+        run: |
+          pip install -e .[dev]
+          pip install locust
+          
+      - name: Start test server
+        run: |
+          python -m active_inference.server &
+          sleep 10
+          
+      - name: Run load tests
+        run: |
+          locust -f tests/load/locustfile.py \
+            --host=http://localhost:8000 \
+            --users=50 \
+            --spawn-rate=5 \
+            --run-time=300s \
+            --html=load-test-report.html \
+            --csv=load-test-results
+            
+      - name: Upload load test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: load-test-results
+          path: |
+            load-test-report.html
+            load-test-results_*.csv
+
+  regression-detection:
+    runs-on: ubuntu-latest
+    needs: [python-benchmarks, cpp-benchmarks]
+    if: always() && github.event_name == 'pull_request'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download benchmark artifacts
+        uses: actions/download-artifact@v3
+        
+      - name: Analyze performance regression
+        run: |
+          python scripts/analyze_performance.py \
+            --current python-benchmarks.json \
+            --baseline main \
+            --threshold 15 \
+            --output regression-report.md
+            
+      - name: Comment regression analysis
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('regression-report.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## Performance Analysis\n\n${report}`
+            });
