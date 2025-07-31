@@ -1,0 +1,155 @@
+# Main CI/CD Pipeline for Active Inference Sim Lab
+# Copy to .github/workflows/ci.yml and customize as needed
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday 2 AM
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_DEFAULT: "3.11"
+  CMAKE_BUILD_TYPE: Release
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_DEFAULT }}
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -e .[dev]
+          
+      - name: Run linting
+        run: |
+          black --check src/ tests/
+          flake8 src/ tests/
+          mypy src/
+          
+      - name: Run security checks
+        run: bandit -r src/ -f json -o bandit-report.json
+        
+      - name: Upload security results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: security-results
+          path: bandit-report.json
+
+  test:
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        exclude:
+          - os: windows-latest
+            python-version: "3.9"
+          - os: macos-latest  
+            python-version: "3.9"
+            
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+          
+      - name: Install system dependencies (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential cmake ninja-build \
+            libeigen3-dev libopenblas-dev
+            
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip wheel
+          pip install -e .[dev,all]
+          
+      - name: Build C++ extensions
+        run: |
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=${{ env.CMAKE_BUILD_TYPE }}
+          cmake --build . --parallel
+          
+      - name: Run unit tests
+        run: |
+          pytest tests/unit/ -v \
+            --cov=active_inference \
+            --cov-report=xml \
+            --cov-report=html \
+            --junit-xml=junit.xml
+            
+      - name: Run integration tests
+        run: |
+          pytest tests/integration/ -v \
+            --junit-xml=integration-junit.xml
+            
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == env.PYTHON_DEFAULT
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-results-${{ matrix.os }}-${{ matrix.python-version }}
+          path: |
+            junit.xml
+            integration-junit.xml
+            htmlcov/
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_DEFAULT }}
+          
+      - name: Install build dependencies
+        run: |
+          pip install build twine
+          
+      - name: Build distribution
+        run: |
+          python -m build
+          
+      - name: Check distribution
+        run: |
+          twine check dist/*
+          
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: distributions
+          path: dist/
