@@ -6,6 +6,7 @@ Implements WSJF + ICE + Technical Debt scoring for autonomous value optimization
 
 import json
 import math
+import os
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass, asdict
@@ -171,12 +172,90 @@ class ScoringEngine:
             if current_work and any(file in current_work for file in item.files_affected):
                 continue
             
-            # TODO: Add dependency checking
-            # TODO: Add risk assessment
+            # Dependency checking
+            if not self.are_dependencies_met(item):
+                continue
+                
+            # Risk assessment
+            if self.assess_risk(item) > thresholds['maxRisk']:
+                continue
             
             executable.append((item, scores))
         
         return executable
+    
+    def are_dependencies_met(self, item: WorkItem) -> bool:
+        """Check if item dependencies are satisfied"""
+        # Check for basic file existence for file-based items
+        for file_path in item.files_affected:
+            if file_path.endswith('/'):  # Directory
+                continue
+            if not file_path.startswith('.') and '/' in file_path:
+                # Check if parent directory exists
+                import os
+                parent_dir = os.path.dirname(file_path)
+                if parent_dir and not os.path.exists(parent_dir):
+                    return False
+        
+        # Category-specific dependency checks
+        if item.category == "security":
+            # Security items can usually proceed independently
+            return True
+        elif item.category == "performance":
+            # Performance items need existing code to optimize
+            return len(item.files_affected) == 0 or any(
+                os.path.exists(f) for f in item.files_affected if f.endswith(('.py', '.cpp', '.h'))
+            )
+        elif item.category == "documentation":
+            # Documentation items need source code to document
+            return True  # Can always add documentation
+        elif item.category == "technical_debt":
+            # Technical debt items usually work on existing code
+            return True
+        
+        return True  # Default: assume dependencies are met
+    
+    def assess_risk(self, item: WorkItem) -> float:
+        """Assess risk level of executing work item (0.0 = low risk, 1.0 = high risk)"""
+        risk_score = 0.0
+        
+        # Base risk by category
+        category_risk = {
+            "security": 0.3,      # Medium risk - affects security posture
+            "performance": 0.4,   # Medium-high risk - could impact performance
+            "technical_debt": 0.2,  # Low-medium risk - usually refactoring
+            "documentation": 0.1,   # Low risk - doesn't affect runtime
+            "automation": 0.3,      # Medium risk - affects CI/CD
+            "testing": 0.2,         # Low-medium risk - improves reliability
+            "maintenance": 0.1      # Low risk - housekeeping
+        }
+        
+        risk_score += category_risk.get(item.category, 0.3)
+        
+        # Risk based on effort (higher effort = higher risk)
+        if item.estimated_effort > 10:
+            risk_score += 0.2
+        elif item.estimated_effort > 5:
+            risk_score += 0.1
+        
+        # Risk based on files affected
+        sensitive_patterns = [
+            'security', 'auth', 'password', 'secret', 'key',
+            'config', 'setup', 'install', 'deploy', 'production'
+        ]
+        
+        for file_path in item.files_affected:
+            file_lower = file_path.lower()
+            if any(pattern in file_lower for pattern in sensitive_patterns):
+                risk_score += 0.2
+                break
+        
+        # Risk based on confidence level (lower confidence = higher risk)
+        if hasattr(item, 'confidence') and item.confidence < 7:
+            risk_score += 0.1
+        
+        # Cap risk score at 1.0
+        return min(risk_score, 1.0)
     
     def generate_housekeeping_task(self) -> WorkItem:
         """Generate a housekeeping task when no high-value items exist"""

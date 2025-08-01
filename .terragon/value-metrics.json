@@ -2,17 +2,18 @@
   "repositoryInfo": {
     "name": "active-inference-sim-lab",
     "maturity": "maturing",
-    "lastAssessment": "2025-08-01T03:00:43.635962",
+    "lastAssessment": "2025-08-01T03:03:54.530566",
     "maturityScore": 68,
     "architecture": "hybrid-cpp-python"
   },
   "discoveryResults": {
     "totalItemsFound": 4,
-    "highPriorityItems": 4,
-    "securityItems": 1,
-    "technicalDebtItems": 1,
+    "highPriorityItems": 1,
+    "automationItems": 0,
+    "testingItems": 0,
     "performanceItems": 1,
-    "documentationItems": 1
+    "documentationItems": 1,
+    "completedItems": 0
   },
   "valueMetrics": {
     "averageScore": 101.14999999999999,
@@ -28,5 +29,5 @@
     "effort": 2,
     "priority": "\ud83d\udd12 HIGH SECURITY"
   },
-  "generatedAt": "2025-08-01T03:00:43.636053"
+  "generatedAt": "2025-08-01T03:08:32.939062"
 }

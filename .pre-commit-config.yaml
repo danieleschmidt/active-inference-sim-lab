@@ -115,3 +115,12 @@ ci:
   autoupdate_schedule: weekly
   skip: []
   submodules: false
+  # Additional Security Scanning
+  - repo: local
+    hooks:
+      - id: pip-audit
+        name: pip-audit
+        entry: python -m pip_audit
+        language: system
+        pass_filenames: false
+        stages: [commit]
