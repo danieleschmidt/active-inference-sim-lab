@@ -1,0 +1,33 @@
+{
+  "repositoryInfo": {
+    "name": "active-inference-sim-lab",
+    "maturity": "maturing",
+    "lastAssessment": "2025-08-01T03:03:54.530566",
+    "maturityScore": 68,
+    "architecture": "hybrid-cpp-python"
+  },
+  "discoveryResults": {
+    "totalItemsFound": 4,
+    "highPriorityItems": 1,
+    "automationItems": 0,
+    "testingItems": 0,
+    "performanceItems": 1,
+    "documentationItems": 1,
+    "completedItems": 0
+  },
+  "valueMetrics": {
+    "averageScore": 101.14999999999999,
+    "totalPotentialValue": 404.59999999999997,
+    "averageEffort": 8.0,
+    "valueEfficiencyRatio": 12.643749999999999
+  },
+  "nextRecommendation": {
+    "id": "SEC-001",
+    "title": "Update vulnerable dependencies",
+    "score": 195.2,
+    "category": "security",
+    "effort": 2,
+    "priority": "\ud83d\udd12 HIGH SECURITY"
+  },
+  "generatedAt": "2025-08-01T03:08:32.939062"
+}

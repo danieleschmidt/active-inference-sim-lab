@@ -2,141 +2,71 @@
 
 ## Supported Versions
 
-We actively maintain security updates for the following versions of Active Inference Sim Lab:
+We actively maintain security for the following versions:
 
 | Version | Supported          |
 | ------- | ------------------ |
 | 0.1.x   | :white_check_mark: |
-| < 0.1   | :x:                |
+
+## Automated Security Monitoring
+
+This repository uses automated security monitoring:
+
+- **Dependabot**: Automated dependency updates and vulnerability alerts
+- **Security Scanning**: Weekly automated scans using bandit, safety, and pip-audit  
+- **Continuous Monitoring**: Security checks on every pull request
+- **Value-Driven Updates**: Security issues receive 2.0x priority boost in autonomous execution
 
 ## Reporting a Vulnerability
 
-### Quick Summary
-
-- **Do not** create public GitHub issues for security vulnerabilities
-- Send reports to **security@terragonlabs.com**
-- Include detailed reproduction steps and impact assessment
-- Expect acknowledgment within 48 hours
-- Full response within 7 business days
-
-### Detailed Process
-
-If you discover a security vulnerability in Active Inference Sim Lab, please follow these steps:
-
-1. **Email us privately** at security@terragonlabs.com with:
+1. **DO NOT** create a public GitHub issue for security vulnerabilities
+2. Send details to: security@terragonlabs.com
+3. Include:
    - Description of the vulnerability
-   - Steps to reproduce the issue
+   - Steps to reproduce
    - Potential impact assessment
-   - Any suggested fixes (optional)
+   - Suggested fix (if available)
 
-2. **Do not disclose** the vulnerability publicly until we've had a chance to address it
+## Response Timeline
 
-3. **Wait for our response** - we aim to acknowledge receipt within 48 hours and provide a full response within 7 business days
+- **Acknowledgment**: Within 24 hours
+- **Initial Assessment**: Within 72 hours  
+- **Status Updates**: Weekly until resolved
+- **Resolution Target**: 30 days for critical, 90 days for non-critical
 
-### What to Include
+## Security Measures
 
-Please include as much information as possible in your report:
+### Dependency Management
+- Automated weekly dependency updates via Dependabot
+- Security-focused updates applied immediately
+- Comprehensive vulnerability scanning in CI/CD
 
-- **Component**: Which part of the system is affected (Python bindings, C++ core, etc.)
-- **Severity**: Your assessment of the impact (Critical/High/Medium/Low)
-- **Reproduction**: Step-by-step instructions to reproduce the issue
-- **Environment**: Operating system, Python version, dependencies
-- **Proof of Concept**: Code samples or screenshots (if applicable)
-- **Suggested Fix**: If you have ideas for remediation
+### Code Security
+- Static analysis with bandit on every commit
+- Pre-commit hooks prevent common security issues
+- Automated secret scanning and detection
 
-### Security Scope
+### Supply Chain Security
+- Software Bill of Materials (SBOM) generation
+- Dependency vulnerability tracking
+- Secure build and release processes
 
-We're particularly interested in vulnerabilities related to:
+## Autonomous Security Response
 
-- **Memory safety issues** in C++ components
-- **Arbitrary code execution** through model files or data
-- **Input validation** bypasses leading to crashes or exploits
-- **Dependency vulnerabilities** with active exploits
-- **Authentication/authorization** bypasses in any components
-- **Data exposure** or unauthorized access to sensitive information
+This repository implements autonomous security response:
 
-### Out of Scope
+1. **Vulnerability Detection**: Automated scanning identifies issues
+2. **Priority Scoring**: Security items receive priority boost
+3. **Autonomous Execution**: Critical security updates applied automatically
+4. **Validation**: Full testing and verification before deployment
+5. **Learning**: Outcomes tracked to improve future response
 
-The following are generally considered out of scope:
+## Security Contact
 
-- Vulnerabilities in third-party dependencies without active exploits
-- Theoretical attacks without practical exploitation paths
-- Issues requiring physical access to the machine
-- Social engineering attacks
-- Denial of service through resource exhaustion (unless exceptionally severe)
-
-### Response Timeline
-
-| Timeline | Action |
-|----------|--------|
-| 0-48 hours | Acknowledgment of receipt |
-| 3-7 days | Initial assessment and triage |
-| 7-14 days | Detailed investigation and fix development |
-| 14-30 days | Testing, validation, and release preparation |
-| 30+ days | Public disclosure coordination |
-
-### Coordinated Disclosure
-
-We follow responsible disclosure practices:
-
-1. **Private coordination** during investigation and fix development
-2. **Joint disclosure** timing agreed upon between reporter and maintainers
-3. **Credit** given to security researchers in release notes and security advisories
-4. **CVE assignment** for qualifying vulnerabilities
-
-### Security Measures
-
-Our security practices include:
-
-#### Development
-- **Static analysis** with bandit, semgrep, and CodeQL
-- **Dependency scanning** with automated Dependabot updates
-- **Memory safety** tools including valgrind and AddressSanitizer
-- **Code review** requirements for all changes
-- **Signed commits** verification on protected branches
-
-#### CI/CD
-- **Container scanning** with Trivy and Snyk
-- **SAST/DAST** integration in all pull requests
-- **Secrets scanning** to prevent credential leaks
-- **Supply chain security** with SLSA attestations
-
-#### Infrastructure
-- **Minimal container images** with distroless base images
-- **Non-root execution** by default in containers
-- **Network segmentation** in deployment environments
-- **Regular security updates** for all dependencies
-
-### Security Contact
-
-- **Primary**: security@terragonlabs.com
-- **PGP Key**: [Available on request]
-- **Response Time**: 48 hours acknowledgment, 7 days full response
-
-### Recognition
-
-We appreciate security researchers who help us maintain the security of Active Inference Sim Lab. Qualifying reports may receive:
-
-- Public recognition in our security advisories
-- Credit in release notes
-- Swag and other tokens of appreciation
-- Potential bounty rewards for critical vulnerabilities (contact us for details)
-
-### Legal Safe Harbor
-
-Terragon Labs supports security research and wants to encourage responsible reporting. We will not pursue legal action against researchers who:
-
-- Follow responsible disclosure practices
-- Avoid privacy violations, data destruction, or service disruption
-- Report vulnerabilities in good faith
-- Do not access more data than necessary to demonstrate the vulnerability
-
-### Additional Resources
-
-- [GitHub Security Advisories](https://github.com/terragon-labs/active-inference-sim-lab/security/advisories)
-- [Terragon Labs Security Policy](https://terragonlabs.com/security)
-- [Industry Best Practices](https://owasp.org/www-project-top-ten/)
+- Email: security@terragonlabs.com
+- Emergency: Follow responsible disclosure practices
+- Updates: Monitor repository security advisories
 
 ---
 
-*This security policy is regularly reviewed and updated. Last updated: January 2025*
+*This security policy is maintained by Terragon Autonomous SDLC*
