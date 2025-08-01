@@ -1,0 +1,49 @@
+scoring:
+  weights:
+    maturing:
+      wsjf: 0.6
+      ice: 0.1
+      technicalDebt: 0.2
+      security: 0.1
+  
+  thresholds:
+    minScore: 10
+    maxRisk: 0.8
+    securityBoost: 2.0
+    complianceBoost: 1.8
+
+discovery:
+  sources:
+    - gitHistory
+    - staticAnalysis
+    - issueTrackers
+    - vulnerabilityDatabases
+    - performanceMonitoring
+    - userFeedback
+  
+  tools:
+    staticAnalysis:
+      - bandit
+      - mypy 
+      - flake8
+    security:
+      - bandit
+      - dependabot
+    performance:
+      - pytest-benchmark
+
+execution:
+  maxConcurrentTasks: 1
+  testRequirements:
+    minCoverage: 80
+    performanceRegression: 5
+  rollbackTriggers:
+    - testFailure
+    - buildFailure
+    - securityViolation
+
+repository:
+  maturity: "maturing"
+  language: "python"
+  architecture: "hybrid-cpp-python"
+  primaryFrameworks: ["pybind11", "gymnasium", "mujoco"]
