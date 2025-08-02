@@ -1,0 +1,93 @@
+{
+    "python.defaultInterpreterPath": "/opt/conda/bin/python",
+    "python.terminal.activateEnvironment": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.banditEnabled": true,
+    "python.formatting.provider": "black",
+    "python.sortImports.args": ["--profile", "black"],
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestArgs": [
+        "tests",
+        "--verbose",
+        "--cov=active_inference",
+        "--cov-report=html",
+        "--cov-report=term-missing"
+    ],
+    
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/cpp/include",
+        "${workspaceFolder}/build/**",
+        "/usr/include/**"
+    ],
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.configureOnOpen": true,
+    "cmake.generator": "Unix Makefiles",
+    
+    "files.associations": {
+        "*.h": "cpp",
+        "*.hpp": "cpp",
+        "*.cpp": "cpp",
+        "*.c": "cpp",
+        "*.cmake": "cmake",
+        "CMakeLists.txt": "cmake"
+    },
+    
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/build": true,
+        "**/dist": true,
+        "**/.pytest_cache": true,
+        "**/.mypy_cache": true,
+        "**/htmlcov": true,
+        "**/.coverage": true,
+        "**/.tox": true,
+        "**/node_modules": true
+    },
+    
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true,
+        "source.fixAll": true
+    },
+    
+    "git.ignoreLimitWarning": true,
+    "git.autofetch": true,
+    
+    "jupyter.askForKernelRestart": false,
+    "jupyter.interactiveWindow.collapseCellInputCode": "firstLine",
+    
+    "restructuredtext.confPath": "${workspaceFolder}/docs",
+    "restructuredtext.updateOnTextChanged": "true",
+    
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.env.linux": {
+        "PYTHONPATH": "${workspaceFolder}:${env:PYTHONPATH}"
+    },
+    
+    "search.exclude": {
+        "**/build": true,
+        "**/dist": true,
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/*.pyc": true,
+        "**/__pycache__": true,
+        "**/.pytest_cache": true,
+        "**/.mypy_cache": true,
+        "**/htmlcov": true,
+        "**/.tox": true
+    },
+    
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#1e3a8a",
+        "activityBar.foreground": "#ffffff"
+    }
+}
