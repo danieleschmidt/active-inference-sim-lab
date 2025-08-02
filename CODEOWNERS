@@ -1,0 +1,39 @@
+# Global ownership
+* @danieleschmidt
+
+# Core C++ engine
+/src/cpp/ @danieleschmidt
+/cmake/ @danieleschmidt
+CMakeLists.txt @danieleschmidt
+
+# Python bindings and API
+/src/python/ @danieleschmidt
+setup.py @danieleschmidt
+pyproject.toml @danieleschmidt
+
+# Documentation
+/docs/ @danieleschmidt
+*.md @danieleschmidt
+
+# CI/CD and DevOps
+/.github/ @danieleschmidt
+/docker/ @danieleschmidt
+Dockerfile* @danieleschmidt
+docker-compose*.yml @danieleschmidt
+
+# Security and compliance
+/security/ @danieleschmidt
+SECURITY.md @danieleschmidt
+
+# Testing infrastructure
+/tests/ @danieleschmidt
+pytest.ini @danieleschmidt
+tox.ini @danieleschmidt
+
+# Configuration files
+.gitignore @danieleschmidt
+.pre-commit-config.yaml @danieleschmidt
+requirements*.txt @danieleschmidt
+
+# Monitoring and observability
+/monitoring/ @danieleschmidt
