@@ -1,5 +1,5 @@
 # Multi-stage build for Active Inference Simulation Lab
-FROM ubuntu:22.04 as builder
+FROM ubuntu:24.04 as builder
 
 # Set build arguments
 ARG PYTHON_VERSION=3.11
@@ -49,7 +49,7 @@ RUN mkdir -p build && cd build && \
     ninja install
 
 # Production stage
-FROM ubuntu:22.04 as production
+FROM ubuntu:24.04 as production
 
 # Install runtime dependencies only
 RUN apt-get update && apt-get install -y \
