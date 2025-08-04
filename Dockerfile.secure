@@ -2,7 +2,7 @@
 # Based on NIST container security guidelines and CIS benchmarks
 
 # Use specific version tags and official images only
-FROM ubuntu:22.04@sha256:965fbcae990b0467ed5657caceaec165018ef44a4d2d46c7cdea80a9dff0d1ea as builder
+FROM ubuntu:24.04@sha256:a08e551cb33850e4740772b38217fc1796a66da2506d312abe51acda354ff061 as builder
 
 # Security labels
 LABEL \
