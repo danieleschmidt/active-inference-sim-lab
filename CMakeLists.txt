@@ -77,28 +77,13 @@ endif()
 
 # Include directories
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/cpp/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/cpp/src
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 # Core library sources
 set(CORE_SOURCES
     cpp/src/core/free_energy.cpp
-    cpp/src/core/generative_model.cpp
-    cpp/src/core/distributions.cpp
-    cpp/src/core/belief_state.cpp
-    cpp/src/inference/belief_updater.cpp
-    cpp/src/inference/variational_inference.cpp
-    cpp/src/inference/particle_filter.cpp
-    cpp/src/inference/kalman_filter.cpp
-    cpp/src/planning/active_planner.cpp
-    cpp/src/planning/trajectory_optimizer.cpp
-    cpp/src/planning/policy_optimizer.cpp
-    cpp/src/hierarchical/hierarchical_agent.cpp
-    cpp/src/utils/math_utils.cpp
-    cpp/src/utils/random_utils.cpp
-    cpp/src/utils/matrix_utils.cpp
-    cpp/src/utils/logging.cpp
 )
 
 # Create core static library
@@ -144,7 +129,7 @@ if(BUILD_PYTHON_BINDINGS)
     endif()
     
     # Python module
-    pybind11_add_module(_core cpp/src/bindings/python_bindings.cpp)
+    pybind11_add_module(_core cpp/src/bindings.cpp)
     target_link_libraries(_core PRIVATE active_inference_core)
     
     # Set module properties
