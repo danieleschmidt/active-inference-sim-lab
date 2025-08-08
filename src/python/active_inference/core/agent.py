@@ -15,8 +15,8 @@ from pathlib import Path
 from .beliefs import Belief, BeliefState
 from .generative_model import GenerativeModel
 from .free_energy import FreeEnergyObjective
-from ..inference import VariationalInference
-from ..planning import ActivePlanner
+from ..inference.variational import VariationalInference
+from ..planning.active_planner import ActivePlanner
 from ..utils.validation import (
     ValidationError, ActiveInferenceError, ModelError, InferenceError, PlanningError,
     validate_array, validate_dimensions, validate_inputs, handle_errors
