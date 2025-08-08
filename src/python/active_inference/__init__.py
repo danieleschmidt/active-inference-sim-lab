@@ -19,15 +19,25 @@ from .core import (
 from .inference import (
     BeliefUpdater,
     VariationalInference,
+    VariationalBeliefUpdater,
+    KalmanBeliefUpdater,
+    ParticleBeliefUpdater,
 )
 
 from .planning import (
     ActivePlanner,
     ExpectedFreeEnergy,
+    ExpectedFreeEnergyComponents,
+    TrajectoryOptimizer,
+    ModelPredictiveController,
 )
 
 from .environments import (
     MockEnvironment,
+    ActiveInferenceGridWorld,
+    ForagingEnvironment,
+    SocialDilemmaEnvironment,
+    TheoryOfMindEnvironment,
 )
 
 # Module-level exports
@@ -40,13 +50,23 @@ __all__ = [
     # Inference
     "BeliefUpdater",
     "VariationalInference",
+    "VariationalBeliefUpdater",
+    "KalmanBeliefUpdater", 
+    "ParticleBeliefUpdater",
     
     # Planning
     "ActivePlanner",
     "ExpectedFreeEnergy",
+    "ExpectedFreeEnergyComponents",
+    "TrajectoryOptimizer",
+    "ModelPredictiveController",
     
     # Environments
     "MockEnvironment",
+    "ActiveInferenceGridWorld",
+    "ForagingEnvironment", 
+    "SocialDilemmaEnvironment",
+    "TheoryOfMindEnvironment",
     
     # Version info
     "__version__",
