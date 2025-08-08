@@ -1,0 +1,39 @@
+# Grid World Active Inference Experiment Configuration
+# This configuration sets up an exploration task in a partially observable grid world
+
+experiment:
+  name: "grid_world_exploration"
+  description: "Grid world exploration with active inference and uncertainty"
+  episodes: 500
+  max_steps: 300
+  seed: 42
+
+agent:
+  type: "ActiveInferenceAgent"
+  state_dim: 8
+  obs_dim: 100  # (2*vision_range + 1)^2 * 4 channels = 5^2 * 4 = 100
+  action_dim: 2
+  inference_method: "variational"
+  planning_horizon: 3
+  learning_rate: 0.005
+  temperature: 0.3
+
+environment:
+  type: "ActiveInferenceGridWorld"
+  size: 10
+  vision_range: 2
+  observation_noise: 0.1
+  uncertainty_regions: 
+    - [3, 3]
+    - [7, 7]
+  goal_locations:
+    - [8, 8]
+  hazard_locations: []
+  dynamic_goals: false
+
+logging:
+  level: "INFO"
+  save_trajectories: true
+  save_beliefs: true
+  save_visualizations: true
+  tensorboard: true

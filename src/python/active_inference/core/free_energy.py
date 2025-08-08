@@ -178,11 +178,94 @@ class FreeEnergyObjective:
         
         Used for action selection - agents choose actions that minimize
         expected free energy under their predictive model.
-        """
-        # This is simplified - full implementation would integrate over
-        # all possible future observations weighted by their probability
-        future_fe = self.compute_free_energy(
-            future_observations, predicted_beliefs, priors, likelihood_fn
-        )
         
-        return future_fe.total
+        Args:
+            future_observations: Predicted future observations
+            predicted_beliefs: Predicted future belief state
+            priors: Prior beliefs
+            likelihood_fn: Observation likelihood function
+            
+        Returns:
+            Expected free energy value
+            
+        Raises:
+            ValidationError: If inputs are invalid
+            ModelError: If computation fails
+        """
+        try:
+            # Validate inputs
+            validate_array(future_observations, "future_observations")
+            
+            if not isinstance(predicted_beliefs, BeliefState):
+                raise ValidationError(f"predicted_beliefs must be BeliefState, got {type(predicted_beliefs)}")
+            
+            if not isinstance(priors, dict):
+                raise ValidationError(f"priors must be dictionary, got {type(priors)}")
+            
+            if not callable(likelihood_fn):
+                raise ValidationError("likelihood_fn must be callable")
+            
+            # This is simplified - full implementation would integrate over
+            # all possible future observations weighted by their probability
+            try:
+                future_fe = self.compute_free_energy(
+                    future_observations, predicted_beliefs, priors, likelihood_fn
+                )
+                
+                if not future_fe.is_valid():
+                    self.logger.warning("Invalid future free energy computed")
+                    return float('inf')
+                
+                return future_fe.total
+                
+            except Exception as e:
+                self.logger.error(f"Error computing future free energy: {e}")
+                return float('inf')  # Conservative fallback
+            
+        except (ValidationError, ModelError):
+            # Re-raise specific errors
+            raise
+        except Exception as e:
+            # Handle unexpected errors
+            self._record_error("expected_free_energy", e)
+            raise ModelError(f"Unexpected error computing expected free energy: {e}")
+    
+    def get_statistics(self) -> Dict[str, Any]:
+        """Get free energy computation statistics.
+        
+        Returns:
+            Dictionary with error counts and settings
+        """
+        try:
+            return {
+                'complexity_weight': self.complexity_weight,
+                'accuracy_weight': self.accuracy_weight,
+                'temperature': self.temperature,
+                'numerical_stability': self.numerical_stability,
+                'max_samples': self.max_samples,
+                'error_count': self._error_count,
+                'last_error': self._last_error
+            }
+        except Exception as e:
+            self.logger.error(f"Error getting statistics: {e}")
+            return {'error': str(e)}
+    
+    def reset_statistics(self) -> None:
+        """Reset error tracking statistics."""
+        self._error_count = 0
+        self._last_error = None
+        self.logger.info("Free energy statistics reset")
+    
+    def __repr__(self) -> str:
+        """String representation of free energy objective."""
+        return (f"FreeEnergyObjective(complexity_weight={self.complexity_weight}, "
+                f"accuracy_weight={self.accuracy_weight}, temperature={self.temperature}, "
+                f"errors={self._error_count})")
+    
+    def __del__(self):
+        """Cleanup when objective is destroyed."""
+        try:
+            if hasattr(self, 'logger') and self.logger and self._error_count > 0:
+                self.logger.info(f"FreeEnergyObjective destroyed with {self._error_count} errors")
+        except:
+            pass  # Ignore errors during cleanup

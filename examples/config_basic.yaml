@@ -1,0 +1,31 @@
+# Basic Active Inference Experiment Configuration
+# This is a simple configuration for getting started with active inference
+
+experiment:
+  name: "basic_active_inference"
+  description: "Basic active inference experiment with mock environment"
+  episodes: 100
+  max_steps: 200
+  seed: 42
+
+agent:
+  type: "ActiveInferenceAgent"
+  state_dim: 4
+  obs_dim: 4
+  action_dim: 2
+  inference_method: "variational"
+  planning_horizon: 5
+  learning_rate: 0.01
+  temperature: 0.5
+
+environment:
+  type: "MockEnvironment"
+  obs_dim: 4
+  action_dim: 2
+  episode_length: 200
+
+logging:
+  level: "INFO"
+  save_trajectories: true
+  save_beliefs: true
+  tensorboard: true

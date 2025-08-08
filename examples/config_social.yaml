@@ -1,0 +1,35 @@
+# Social Dilemma Active Inference Experiment Configuration
+# This configuration sets up multi-agent social cognition experiments
+
+experiment:
+  name: "social_dilemma_cooperation"
+  description: "Multi-agent social dilemma with theory of mind"
+  episodes: 1000
+  max_steps: 50
+  seed: 42
+
+agent:
+  type: "ActiveInferenceAgent"
+  n_agents: 2
+  state_dim: 6
+  obs_dim: 15  # Complex observation space including social information
+  action_dim: 1
+  inference_method: "variational"
+  planning_horizon: 3
+  learning_rate: 0.01
+  temperature: 0.8
+
+environment:
+  type: "SocialDilemmaEnvironment"
+  n_agents: 2
+  game_type: "prisoners_dilemma"  # or "public_goods", "resource_sharing", "trust_game"
+  max_rounds: 20
+  reputation_system: true
+  communication: false
+
+logging:
+  level: "INFO"
+  save_trajectories: true
+  save_beliefs: true
+  save_social_dynamics: true
+  tensorboard: true
