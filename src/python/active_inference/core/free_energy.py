@@ -8,8 +8,39 @@ active inference agents, including accuracy and complexity terms.
 import numpy as np
 from typing import Dict, Any, Optional, Callable
 from dataclasses import dataclass
+import logging
 
 from .beliefs import Belief, BeliefState
+
+
+class ValidationError(ValueError):
+    """Raised when input validation fails."""
+    pass
+
+
+class ModelError(RuntimeError):
+    """Raised when model computation fails."""
+    pass
+
+
+def validate_array(arr: np.ndarray, name: str) -> None:
+    """Validate numpy array input.
+    
+    Args:
+        arr: Array to validate
+        name: Name of the array for error messages
+        
+    Raises:
+        ValidationError: If array is invalid
+    """
+    if not isinstance(arr, np.ndarray):
+        raise ValidationError(f"{name} must be numpy array, got {type(arr)}")
+    
+    if arr.size == 0:
+        raise ValidationError(f"{name} cannot be empty")
+    
+    if not np.isfinite(arr).all():
+        raise ValidationError(f"{name} contains non-finite values")
 
 
 @dataclass
@@ -22,6 +53,16 @@ class FreeEnergyComponents:
     def __post_init__(self):
         """Ensure total equals accuracy + complexity."""
         self.total = self.accuracy + self.complexity
+    
+    def is_valid(self) -> bool:
+        """Check if all components are finite values.
+        
+        Returns:
+            True if all components are finite, False otherwise
+        """
+        return (np.isfinite(self.accuracy) and 
+                np.isfinite(self.complexity) and 
+                np.isfinite(self.total))
 
 
 class FreeEnergyObjective:
@@ -48,6 +89,8 @@ class FreeEnergyObjective:
         self.complexity_weight = complexity_weight
         self.accuracy_weight = accuracy_weight
         self.temperature = temperature
+        self.logger = logging.getLogger(__name__)
+        self._error_count = {"validation": 0, "computation": 0, "expected_free_energy": 0}
     
     def compute_accuracy(self, 
                         observations: np.ndarray,
@@ -229,6 +272,18 @@ class FreeEnergyObjective:
             # Handle unexpected errors
             self._record_error("expected_free_energy", e)
             raise ModelError(f"Unexpected error computing expected free energy: {e}")
+    
+    def _record_error(self, error_type: str, error: Exception) -> None:
+        """Record an error for statistics.
+        
+        Args:
+            error_type: Type of error (validation, computation, etc.)
+            error: The exception that occurred
+        """
+        if error_type not in self._error_count:
+            self._error_count[error_type] = 0
+        self._error_count[error_type] += 1
+        self.logger.error(f"Free energy {error_type} error: {error}")
     
     def get_statistics(self) -> Dict[str, Any]:
         """Get free energy computation statistics.
