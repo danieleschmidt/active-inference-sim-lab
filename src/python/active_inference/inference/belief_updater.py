@@ -130,7 +130,10 @@ class VariationalBeliefUpdater(BeliefUpdater):
         super().__init__("VariationalBeliefUpdater")
         
         try:
-            self.inference_engine = VariationalInference(**kwargs)
+            # Filter kwargs to only include valid VariationalInference parameters
+            valid_params = {'learning_rate', 'max_iterations', 'convergence_threshold'}
+            filtered_kwargs = {k: v for k, v in kwargs.items() if k in valid_params}
+            self.inference_engine = VariationalInference(**filtered_kwargs)
             self.logger.info(
                 "Variational inference engine initialized",
                 LogCategory.INFERENCE,

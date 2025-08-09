@@ -138,6 +138,8 @@ class VariationalInference:
         dim = len(prior.mean)
         mean = params[:dim]
         log_var = params[dim:]
+        # Clip log_var to prevent overflow/underflow
+        log_var = np.clip(log_var, -10, 10)  # exp(-10) ≈ 4.5e-5, exp(10) ≈ 22026
         var = np.exp(log_var)
         
         # Create belief from current parameters

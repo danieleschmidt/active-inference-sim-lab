@@ -455,11 +455,17 @@ def setup_global_logging(log_level: LogLevel = LogLevel.INFO,
 def get_logger(component: str = "main") -> StructuredLogger:
     """Get logger for specific component."""
     global _global_loggers
-    if '_global_loggers' not in globals():
+    if '_global_loggers' not in globals() or not _global_loggers:
         # Initialize with defaults if not setup
         setup_global_logging()
     
-    return _global_loggers.get(component, _global_loggers['main'])
+    # If component doesn't exist, create a basic logger
+    if component not in _global_loggers:
+        if 'main' not in _global_loggers:
+            setup_global_logging()
+        _global_loggers[component] = _global_loggers['main']
+    
+    return _global_loggers[component]
 
 
 # Global logger storage

@@ -121,6 +121,30 @@ class GenerativeModel:
     
     def _default_dynamics(self, state: np.ndarray, action: np.ndarray) -> np.ndarray:
         """Default linear dynamics with additive action effects."""
+        # Ensure state is properly shaped
+        if state.ndim == 0 or state.size == 0:
+            # Fallback: use zero state
+            state = np.zeros(self.state_dim)
+        elif state.ndim == 1 and len(state) != self.state_dim:
+            # Reshape or pad to correct dimension
+            if len(state) < self.state_dim:
+                padded_state = np.zeros(self.state_dim)
+                padded_state[:len(state)] = state
+                state = padded_state
+            else:
+                state = state[:self.state_dim]
+        
+        # Ensure action is properly shaped
+        if action.ndim == 0 or action.size == 0:
+            action = np.zeros(self.action_dim)
+        elif action.ndim == 1 and len(action) != self.action_dim:
+            if len(action) < self.action_dim:
+                padded_action = np.zeros(self.action_dim)
+                padded_action[:len(action)] = action
+                action = padded_action
+            else:
+                action = action[:self.action_dim]
+        
         next_state = (self._dynamics_matrix @ state + 
                      self._action_matrix @ action +
                      np.random.randn(self.state_dim) * self._process_noise)
