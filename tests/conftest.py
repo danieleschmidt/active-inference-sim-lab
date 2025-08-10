@@ -9,13 +9,18 @@ from typing import Generator
 
 import numpy as np
 import pytest
-import torch
 
 # Set random seeds for reproducibility
 np.random.seed(42)
-torch.manual_seed(42)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(42)
+
+# Optional torch import
+try:
+    import torch
+    torch.manual_seed(42)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(42)
+except ImportError:
+    torch = None
 
 
 @pytest.fixture(scope="session")
@@ -84,11 +89,14 @@ def mock_environment():
 
 
 @pytest.fixture
-def device() -> torch.device:
+def device():
     """Fixture providing appropriate device for testing."""
-    if torch.cuda.is_available() and not os.getenv("PYTEST_CURRENT_TEST"):
-        return torch.device("cuda")
-    return torch.device("cpu")
+    if torch is not None:
+        if torch.cuda.is_available() and not os.getenv("PYTEST_CURRENT_TEST"):
+            return torch.device("cuda")
+        return torch.device("cpu")
+    else:
+        return "cpu"  # String fallback when torch not available
 
 
 @pytest.fixture(autouse=True)
@@ -169,9 +177,9 @@ def test_config() -> TestConfig:
     return TestConfig()
 
 
-# Pytest plugins
-pytest_plugins = [
-    "pytest_benchmark",
-    "pytest_mock",
-    "pytest_asyncio",
-]
+# Pytest plugins  
+# pytest_plugins = [
+#     "pytest_benchmark",
+#     "pytest_mock", 
+#     "pytest_asyncio",
+# ]

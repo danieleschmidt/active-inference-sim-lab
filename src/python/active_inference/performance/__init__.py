@@ -7,54 +7,20 @@ optimization tools for production deployment.
 
 from .optimization import (
     OptimizedActiveInferenceAgent,
-    GPUAcceleratedAgent,
-    ParallelBeliefUpdater,
-    VectorizedEnvironmentWrapper
-)
-
-from .profiling import (
-    PerformanceProfiler,
-    MemoryProfiler,
-    BenchmarkProfiler,
-    OptimizationRecommender
+    OptimizationConfig
 )
 
 from .caching import (
-    BeliefCache,
-    ModelCache,
-    AdaptiveCache,
+    BaseCache,
     CacheStrategy
-)
-
-from .scaling import (
-    DistributedTraining,
-    MultiAgentScaling,
-    HierarchicalScaling,
-    CloudDeployment
 )
 
 __all__ = [
     # Optimization
     'OptimizedActiveInferenceAgent',
-    'GPUAcceleratedAgent', 
-    'ParallelBeliefUpdater',
-    'VectorizedEnvironmentWrapper',
-    
-    # Profiling
-    'PerformanceProfiler',
-    'MemoryProfiler',
-    'BenchmarkProfiler',
-    'OptimizationRecommender',
+    'OptimizationConfig',
     
     # Caching
-    'BeliefCache',
-    'ModelCache',
-    'AdaptiveCache',
+    'BaseCache',
     'CacheStrategy',
-    
-    # Scaling
-    'DistributedTraining',
-    'MultiAgentScaling',
-    'HierarchicalScaling',
-    'CloudDeployment',
 ]
