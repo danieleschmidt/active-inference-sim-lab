@@ -1,0 +1,33 @@
+# Production deployment configuration for Active Inference agents
+# This file defines optimal settings for production deployment
+
+# Agent Configuration
+agent_type: "optimized"  # Use optimized agent for production
+state_dim: 8
+obs_dim: 8
+action_dim: 4
+planning_horizon: 3  # Balanced performance vs accuracy
+
+# Performance Configuration
+enable_gpu: false  # Set to true if GPU available
+enable_caching: true
+cache_size: 10000
+batch_size: 32
+num_workers: 4
+
+# Monitoring Configuration
+enable_metrics: true
+metrics_port: 8080
+health_check_interval: 30
+log_level: "INFO"
+
+# Scaling Configuration
+min_instances: 2  # Minimum redundancy
+max_instances: 8  # Scale up to handle load
+scale_up_threshold: 0.8  # Scale up when 80% capacity
+scale_down_threshold: 0.3  # Scale down when below 30%
+
+# Security Configuration
+max_request_size: 1048576  # 1MB max request
+rate_limit: 1000  # 1000 requests per minute
+enable_auth: true

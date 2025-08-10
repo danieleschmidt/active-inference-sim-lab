@@ -425,7 +425,7 @@ class ActiveInferenceAgent:
             self.step_count += 1
             
             # Trim history periodically to prevent memory bloat
-            if self.step_count % 1000 == 0:
+            if len(self.history['observations']) > self.max_history_length:
                 self._trim_history()
             
             self.logger.debug(f"Completed perception-action cycle, step {self.step_count}")
@@ -501,14 +501,32 @@ class ActiveInferenceAgent:
             except Exception as e:
                 self.logger.warning(f"Model learning failed, using fallback: {e}")
                 # Continue without model updates - system remains functional
-            
+                
         except (ValidationError, ModelError):
             # Re-raise specific errors
             raise
         except Exception as e:
             # Handle unexpected errors
             self._record_error("model_update", e)
-            raise ModelError(f"Model update failed: {e}")
+    
+    def update_beliefs(self, observation: np.ndarray, action: Optional[np.ndarray] = None) -> None:
+        """
+        Update agent beliefs based on new observation.
+        
+        Args:
+            observation: New observation
+            action: Optional action that led to this observation
+        """
+        try:
+            validate_array(observation, "observation", expected_shape=(self.obs_dim,))
+            
+            # Update beliefs through inference
+            self.beliefs = self.infer_states(observation)
+            self.logger.debug("Beliefs updated successfully")
+            
+        except Exception as e:
+            self.logger.error(f"Failed to update beliefs: {e}")
+            raise
     
     @handle_errors((ActiveInferenceError, ValidationError), log_errors=True)
     def reset(self, observation: Optional[np.ndarray] = None) -> None:

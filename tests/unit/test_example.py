@@ -6,7 +6,11 @@ This file demonstrates testing patterns and provides basic test examples.
 
 import numpy as np
 import pytest
-import torch
+
+try:
+    import torch
+except ImportError:
+    torch = None
 
 
 class TestExampleUnitTests:

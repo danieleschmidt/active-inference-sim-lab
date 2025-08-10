@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # Active Inference Agent Service
+  active-inference:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "8080:8080"  # Metrics port
+    environment:
+      - PYTHONPATH=/app/src/python
+      - LOG_LEVEL=INFO
+      - ENABLE_METRICS=true
+      - NUM_WORKERS=4
+    volumes:
+      - ../deployment/config_production.yaml:/app/config.yaml:ro
+      - ../logs:/app/logs
+    command: ["python", "/app/deployment/production.py", "--config", "/app/config.yaml"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  # Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../monitoring/grafana/:/etc/grafana/provisioning/
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Load Balancer
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../deployment/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../deployment/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - active-inference
+    restart: unless-stopped
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  default:
+    name: active-inference-prod
