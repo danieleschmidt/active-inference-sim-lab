@@ -30,8 +30,14 @@ class TestExampleUnitTests:
         mean_obs = np.mean(sample_observations, axis=0)
         assert mean_obs.shape == (4,)
     
-    def test_torch_operations(self, device):
+    def test_torch_operations(self):
         """Test with PyTorch tensors."""
+        try:
+            import torch
+        except ImportError:
+            pytest.skip("PyTorch not available")
+        
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
         x = torch.randn(5, 3, device=device)
         y = torch.randn(5, 3, device=device)
         

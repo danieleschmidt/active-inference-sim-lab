@@ -1,0 +1,33 @@
+# Production Configuration for Active Inference System
+# This configuration optimizes for production deployment
+
+# Agent Configuration
+agent_type: "optimized"
+state_dim: 8
+obs_dim: 8
+action_dim: 4
+planning_horizon: 5
+
+# Performance Configuration
+enable_gpu: false  # Set to true if GPU available
+enable_caching: true
+cache_size: 10000
+batch_size: 64
+num_workers: 4
+
+# Monitoring Configuration
+enable_metrics: false  # Disabled for testing
+metrics_port: 8080
+health_check_interval: 30
+log_level: "INFO"
+
+# Scaling Configuration
+min_instances: 2
+max_instances: 10
+scale_up_threshold: 0.8
+scale_down_threshold: 0.3
+
+# Security Configuration
+max_request_size: 1048576  # 1MB
+rate_limit: 1000  # requests per minute
+enable_auth: true

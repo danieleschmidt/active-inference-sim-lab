@@ -62,6 +62,7 @@ def mock_environment():
         def __init__(self):
             self.observation_space_dim = 4
             self.action_space_dim = 2
+            self.action_dim = 2  # Add action_dim attribute
             self.state_dim = 6
             self._state = np.zeros(self.state_dim)
             self._step_count = 0
@@ -72,6 +73,11 @@ def mock_environment():
             return self.get_observation()
             
         def step(self, action):
+            # Ensure action has correct dimensionality
+            action = np.atleast_1d(action)
+            if len(action) != self.action_dim:
+                action = action[:self.action_dim] if len(action) > self.action_dim else np.pad(action, (0, self.action_dim - len(action)))
+            
             self._state += 0.1 * action + 0.05 * np.random.randn(self.state_dim)
             self._step_count += 1
             observation = self.get_observation()
