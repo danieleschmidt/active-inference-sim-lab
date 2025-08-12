@@ -62,6 +62,9 @@ class OptimizedActiveInferenceAgent(ActiveInferenceAgent):
         self.cache_hits = 0
         self.cache_misses = 0
         
+        # Initialize GPU availability first
+        self.gpu_available = False
+        
         # Initialize optimizations
         self._initialize_optimizations()
         
@@ -87,6 +90,8 @@ class OptimizedActiveInferenceAgent(ActiveInferenceAgent):
     
     def _setup_gpu_acceleration(self):
         """Setup GPU acceleration if available."""
+        self.gpu_available = False  # Initialize attribute
+        
         try:
             # Try to import GPU libraries
             import cupy as cp
