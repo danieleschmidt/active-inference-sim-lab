@@ -392,10 +392,38 @@ class PrecomputedTables:
         self.logger.info(f"Tables saved to {filepath}")
     
     def load_tables(self, filepath: str) -> None:
-        """Load precomputed tables from file."""
-        with open(filepath, 'rb') as f:
-            self.tables = pickle.load(f)
-        self.logger.info(f"Tables loaded from {filepath}")
+        """Load precomputed tables from file with security validation."""
+        import os
+        from pathlib import Path
+        
+        # Validate file path
+        filepath = Path(filepath).resolve()
+        if not filepath.exists():
+            raise FileNotFoundError(f"Cache file not found: {filepath}")
+        
+        # Check file size (prevent loading extremely large files)
+        file_size = os.path.getsize(filepath)
+        if file_size > 100 * 1024 * 1024:  # 100MB limit
+            raise ValueError(f"Cache file too large: {file_size} bytes")
+        
+        try:
+            with open(filepath, 'rb') as f:
+                # Use safe pickle loading with size limit
+                data = f.read()
+                if len(data) > 100 * 1024 * 1024:  # Additional size check
+                    raise ValueError("Pickle data too large")
+                
+                import io
+                data_stream = io.BytesIO(data)
+                self.tables = pickle.load(data_stream)
+                
+            # Validate loaded data structure
+            if not isinstance(self.tables, dict):
+                raise ValueError("Invalid cache data: expected dictionary")
+                
+            self.logger.info(f"Tables safely loaded from {filepath}")
+        except (pickle.UnpicklingError, EOFError, ImportError) as e:
+            raise ValueError(f"Invalid or corrupted cache file: {e}")
 
 
 class OptimizedOperations:
