@@ -580,3 +580,4 @@ class NoveltyDetector:
                 }
             },
             metadata={'total_runs': len(all_performances)}
+        )
