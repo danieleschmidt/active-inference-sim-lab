@@ -68,7 +68,9 @@ def demo_generation_1_core_functionality():
                 return self.state + np.random.randn(self.obs_dim) * 0.1
             
             def step(self, action):
-                self.state += action * 0.1 + np.random.randn(self.obs_dim) * 0.05
+                # Pad action to match state dimensions
+                action_padded = np.pad(action, (0, max(0, self.obs_dim - len(action))), mode='constant')[:self.obs_dim]
+                self.state += action_padded * 0.1 + np.random.randn(self.obs_dim) * 0.05
                 observation = self.state + np.random.randn(self.obs_dim) * 0.1
                 reward = -np.sum(self.state**2)  # Reward for staying near origin
                 self.step_count += 1
