@@ -78,7 +78,13 @@ def mock_environment():
             if len(action) != self.action_dim:
                 action = action[:self.action_dim] if len(action) > self.action_dim else np.pad(action, (0, self.action_dim - len(action)))
             
-            self._state += 0.1 * action + 0.05 * np.random.randn(self.state_dim)
+            # Handle dimension compatibility for state updates
+            if len(action) == self.state_dim:
+                self._state += 0.1 * action + 0.05 * np.random.randn(self.state_dim)
+            else:
+                # If action and state dimensions don't match, use action influence proportionally
+                action_effect = np.sum(action) * 0.1 / self.state_dim
+                self._state += action_effect + 0.05 * np.random.randn(self.state_dim)
             self._step_count += 1
             observation = self.get_observation()
             reward = -np.sum(self._state**2)  # Simple quadratic cost
