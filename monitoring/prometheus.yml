@@ -1,64 +1,7 @@
-# Prometheus configuration for Active Inference Sim Lab
 global:
   scrape_interval: 15s
-  evaluation_interval: 15s
-  external_labels:
-    cluster: 'active-inference-lab'
-    replica: 'prometheus-01'
-
-rule_files:
-  - "alerts.yml"
-
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-          - alertmanager:9093
-
 scrape_configs:
-  # Prometheus self-monitoring
-  - job_name: 'prometheus'
-    static_configs:
-      - targets: ['localhost:9090']
-    scrape_interval: 30s
-    metrics_path: /metrics
-
-  # System metrics
-  - job_name: 'node-exporter'
-    static_configs:
-      - targets: ['node-exporter:9100']
-    scrape_interval: 15s
-
-  # Active Inference application metrics
-  - job_name: 'active-inference-app'
-    static_configs:
-      - targets: ['active-inference-app:8080']
-    scrape_interval: 10s
-    metrics_path: /metrics
-    scrape_timeout: 5s
-
-  # Python application metrics (if using prometheus_client)
-  - job_name: 'python-metrics'
-    static_configs:
-      - targets: ['active-inference-app:8001']
-    scrape_interval: 15s
-    honor_labels: true
-
-  # C++ application metrics (custom exporter)
-  - job_name: 'cpp-metrics'
-    static_configs:
-      - targets: ['active-inference-app:8002']
-    scrape_interval: 30s
-    
-  # Training job metrics
-  - job_name: 'training-metrics'
-    static_configs:
-      - targets: ['active-inference-app:8003']
-    scrape_interval: 5s
-    honor_timestamps: true
-
-  # GPU metrics (if available)
-  - job_name: 'dcgm-exporter'
-    static_configs:
-      - targets: ['dcgm-exporter:9400']
-    scrape_interval: 30s
+- job_name: active-inference-api
+  static_configs:
+  - targets:
+    - active-inference-api:8080
