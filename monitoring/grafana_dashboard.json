@@ -1,0 +1,32 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Active Inference Monitoring",
+    "panels": [
+      {
+        "title": "Agent Performance",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "agent_inference_time_seconds"
+          },
+          {
+            "expr": "agent_planning_time_seconds"
+          }
+        ]
+      },
+      {
+        "title": "System Health",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "agent_health_status"
+          },
+          {
+            "expr": "agent_error_rate"
+          }
+        ]
+      }
+    ]
+  }
+}

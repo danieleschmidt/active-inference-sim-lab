@@ -1,0 +1,50 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Active Inference API",
+    "version": "1.0.0",
+    "description": "High-performance Active Inference agents API"
+  },
+  "paths": {
+    "/agent/create": {
+      "post": {
+        "summary": "Create new agent",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "state_dim": {
+                    "type": "integer"
+                  },
+                  "obs_dim": {
+                    "type": "integer"
+                  },
+                  "action_dim": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/{agent_id}/act": {
+      "post": {
+        "summary": "Agent action",
+        "parameters": [
+          {
+            "name": "agent_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

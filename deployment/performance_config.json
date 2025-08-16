@@ -1,0 +1,17 @@
+{
+  "caching": {
+    "redis_url": "redis://redis:6379",
+    "cache_ttl": 300,
+    "max_cache_size": "100MB"
+  },
+  "optimization": {
+    "batch_processing": true,
+    "async_processing": true,
+    "connection_pooling": true
+  },
+  "resource_limits": {
+    "max_concurrent_requests": 100,
+    "request_timeout": 30,
+    "memory_limit": "2GB"
+  }
+}
