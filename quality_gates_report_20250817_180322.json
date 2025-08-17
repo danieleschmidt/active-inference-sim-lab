@@ -1,0 +1,98 @@
+{
+  "timestamp": "2025-08-17T18:03:12.703030",
+  "gates": {
+    "Unit Tests": {
+      "status": "PASS",
+      "execution_time": 0.32993049699999233,
+      "details": {
+        "coverage_threshold": "80%",
+        "actual_coverage": "100.0%"
+      },
+      "metrics": {
+        "Test Coverage": "100.0%",
+        "Tests Passed": "5/5"
+      }
+    },
+    "Integration Tests": {
+      "status": "PASS",
+      "execution_time": 4.501984875000005,
+      "details": {},
+      "metrics": {
+        "Integration Rate": "100.0%",
+        "Components Tested": "3/3",
+        "Total Reward": "-5.140"
+      }
+    },
+    "Performance Tests": {
+      "status": "PASS",
+      "execution_time": 4.27294658400001,
+      "details": {
+        "inference_threshold": "1000ms",
+        "planning_threshold": "1000ms",
+        "total_threshold": "1500ms"
+      },
+      "metrics": {
+        "Avg Inference Time": "242.6ms",
+        "Avg Planning Time": "184.6ms",
+        "Total Cycle Time": "427.2ms",
+        "Theoretical FPS": "2.3"
+      }
+    },
+    "Security Validation": {
+      "status": "PASS",
+      "execution_time": 0.0026904169999966143,
+      "details": {},
+      "metrics": {
+        "Security Tests Passed": "4/4",
+        "Security Rate": "100.0%"
+      }
+    },
+    "Code Quality": {
+      "status": "PASS",
+      "execution_time": 0.00042258900001002075,
+      "details": {
+        "imports_working": true,
+        "classes_defined": true,
+        "error_handling": true,
+        "logging_present": true
+      },
+      "metrics": {
+        "Quality Score": "100.0%",
+        "Metrics Passed": "4/4"
+      }
+    },
+    "Documentation": {
+      "status": "PASS",
+      "execution_time": 6.786199998032316e-05,
+      "details": {
+        "readme_exists": true,
+        "module_docstrings": true,
+        "function_docstrings": true,
+        "examples_present": true
+      },
+      "metrics": {
+        "Documentation Score": "100.0%"
+      }
+    },
+    "API Contracts": {
+      "status": "PASS",
+      "execution_time": 0.31914760600000136,
+      "details": {},
+      "metrics": {
+        "API Contracts Passed": "4/4",
+        "Contract Compliance": "100.0%"
+      }
+    },
+    "Error Handling": {
+      "status": "PASS",
+      "execution_time": 0.000687459999994644,
+      "details": {},
+      "metrics": {
+        "Error Handling Rate": "100.0%",
+        "Error Tests Passed": "3/3"
+      }
+    }
+  },
+  "overall_status": "PASS",
+  "execution_time": 9.428065482999983
+}
