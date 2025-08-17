@@ -15,7 +15,11 @@ class MockEnvironment:
     def __init__(self, 
                  obs_dim: int = 4,
                  action_dim: int = 2,
-                 episode_length: int = 100):
+                 episode_length: int = 100,
+                 reward_noise: float = 0.0,
+                 observation_noise: float = 0.01,
+                 temporal_dynamics: bool = False,
+                 **kwargs):
         """
         Initialize mock environment.
         
@@ -23,10 +27,16 @@ class MockEnvironment:
             obs_dim: Observation dimensionality
             action_dim: Action dimensionality 
             episode_length: Maximum episode length
+            reward_noise: Noise level for reward signal
+            observation_noise: Noise level for observations
+            temporal_dynamics: Enable temporal dynamics modeling
         """
         self.obs_dim = obs_dim
         self.action_dim = action_dim
         self.episode_length = episode_length
+        self.reward_noise = reward_noise
+        self.observation_noise = observation_noise
+        self.temporal_dynamics = temporal_dynamics
         
         self.state = None
         self.step_count = 0
@@ -67,8 +77,10 @@ class MockEnvironment:
         
         self.state += 0.1 * action_effect + 0.05 * np.random.randn(self.obs_dim)
         
-        # Compute reward (negative quadratic cost)
+        # Compute reward (negative quadratic cost) with optional noise
         reward = -np.sum(self.state**2) - 0.01 * np.sum(action**2)
+        if self.reward_noise > 0:
+            reward += np.random.normal(0, self.reward_noise)
         
         # Check termination
         terminated = False
@@ -84,10 +96,11 @@ class MockEnvironment:
         return self._get_observation(), reward, terminated, truncated, info
     
     def _get_observation(self) -> np.ndarray:
-        """Get current observation (with optional noise)."""
+        """Get current observation (with configurable noise)."""
         obs = self.state.copy()
-        # Add observation noise
-        obs += 0.01 * np.random.randn(self.obs_dim)
+        # Add configurable observation noise
+        if self.observation_noise > 0:
+            obs += np.random.normal(0, self.observation_noise, self.obs_dim)
         return obs
     
     def render(self, mode: str = 'human') -> None:

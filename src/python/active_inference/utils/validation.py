@@ -9,6 +9,8 @@ import numpy as np
 from typing import Any, Dict, List, Optional, Union, Tuple
 from functools import wraps
 import logging
+import re
+import time
 
 
 class ValidationError(Exception):
@@ -83,6 +85,71 @@ def validate_array(arr: np.ndarray,
     
     if max_val is not None and np.any(arr > max_val):
         raise ValidationError(f"{name} contains values above {max_val}")
+
+
+class SecurityValidator:
+    """Security validation for Active Inference inputs."""
+    
+    def __init__(self):
+        self.threat_patterns = {
+            'sql_injection': [r'union\s+select', r'drop\s+table', r'insert\s+into'],
+            'xss': [r'<script', r'javascript:', r'onload\s*='],
+            'command_injection': [r';\s*rm\s+', r';\s*cat\s+', r'&&\s*rm']
+        }
+    
+    def validate_input(self, input_data: Any) -> bool:
+        """Basic security validation of input data."""
+        try:
+            if isinstance(input_data, np.ndarray):
+                # Check for NaN/Inf values
+                if np.any(np.isnan(input_data)) or np.any(np.isinf(input_data)):
+                    return False
+                # Check for reasonable size
+                if input_data.nbytes > 10**7:  # 10MB limit
+                    return False
+            elif isinstance(input_data, str):
+                # Check for malicious patterns
+                input_lower = input_data.lower()
+                for category, patterns in self.threat_patterns.items():
+                    for pattern in patterns:
+                        if re.search(pattern, input_lower):
+                            return False
+            return True
+        except Exception:
+            return False
+
+
+class AdvancedInputValidator:
+    """Advanced input validation with detailed checks."""
+    
+    def __init__(self):
+        self.max_size = 10**6  # 1MB
+        self.validation_cache = {}
+    
+    def validate_comprehensive(self, input_data: Any) -> Dict[str, bool]:
+        """Comprehensive validation returning detailed results."""
+        results = {
+            'size_valid': True,
+            'type_valid': True,
+            'content_valid': True,
+            'security_valid': True
+        }
+        
+        try:
+            # Size validation
+            if hasattr(input_data, 'nbytes'):
+                results['size_valid'] = input_data.nbytes <= self.max_size
+            
+            # Type validation
+            results['type_valid'] = isinstance(input_data, (np.ndarray, list, int, float))
+            
+            # Content validation
+            if isinstance(input_data, np.ndarray):
+                results['content_valid'] = not (np.any(np.isnan(input_data)) or np.any(np.isinf(input_data)))
+            
+            return results
+        except Exception:
+            return {k: False for k in results.keys()}
 
 
 def validate_matrix(matrix: np.ndarray,
