@@ -1,0 +1,297 @@
+{
+  "timestamp": 1755812289.7464666,
+  "execution_time": 1.3155536651611328,
+  "overall_score": 0.8793969849246231,
+  "quality_gates_passed": false,
+  "total_tests": 199,
+  "total_passed": 175,
+  "total_failed": 24,
+  "detailed_results": {
+    "syntax_validation": {
+      "passed": 87,
+      "failed": 0,
+      "errors": [
+        "advanced_sdlc_demo.py:186: Line too long (123 chars)",
+        "quality_gates_validation.py:165: TODO/FIXME found in production code",
+        "quality_gates_validation.py:166: TODO/FIXME found in production code",
+        "quality_gates_validation.py:168: TODO/FIXME found in production code",
+        "quality_gates_validation.py:265: Line too long (135 chars)",
+        "quality_gates_validation.py:564: Line too long (125 chars)",
+        ".terragon/autonomous-executor.py:79: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:83: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:86: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:95: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:96: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:249: TODO/FIXME found in production code",
+        ".terragon/autonomous-executor.py:303: Line too long (125 chars)",
+        ".terragon/autonomous-executor.py:315: Line too long (194 chars)",
+        ".terragon/enhanced-value-discovery.py:129: Line too long (129 chars)",
+        ".terragon/enhanced-value-discovery.py:249: TODO/FIXME found in production code",
+        ".terragon/enhanced-value-discovery.py:252: TODO/FIXME found in production code",
+        ".terragon/enhanced-value-discovery.py:253: TODO/FIXME found in production code",
+        ".terragon/enhanced_discovery.py:49: TODO/FIXME found in production code",
+        ".terragon/enhanced_discovery.py:53: TODO/FIXME found in production code",
+        ".terragon/enhanced_discovery.py:63: TODO/FIXME found in production code",
+        ".terragon/enhanced_discovery.py:166: Line too long (143 chars)",
+        ".terragon/enhanced_discovery.py:180: Line too long (152 chars)",
+        ".terragon/enhanced_discovery.py:181: Line too long (158 chars)",
+        ".terragon/enhanced_discovery.py:189: TODO/FIXME found in production code",
+        ".terragon/enhanced_discovery.py:196: Line too long (132 chars)",
+        ".terragon/run_discovery.py:32: TODO/FIXME found in production code",
+        ".terragon/run_discovery.py:36: TODO/FIXME found in production code",
+        ".terragon/run_discovery.py:45: TODO/FIXME found in production code",
+        ".terragon/run_discovery.py:110: Line too long (143 chars)",
+        ".terragon/run_discovery.py:118: TODO/FIXME found in production code",
+        ".terragon/run_discovery.py:140: Line too long (139 chars)",
+        "examples/advanced_research_demo.py:489: Line too long (126 chars)",
+        "examples/advanced_research_demo.py:811: Line too long (123 chars)",
+        "examples/complete_sdlc_demo.py:532: Line too long (137 chars)",
+        "examples/complete_sdlc_demo.py:533: Line too long (161 chars)",
+        "tests/conftest.py:79: Line too long (138 chars)",
+        "src/python/active_inference/core/agent.py:608: Line too long (125 chars)",
+        "src/python/active_inference/performance/advanced_optimization.py:781: Line too long (133 chars)",
+        "src/python/active_inference/performance/advanced_optimization.py:784: Line too long (132 chars)",
+        "src/python/active_inference/performance/advanced_optimization.py:787: Line too long (137 chars)",
+        "src/python/active_inference/performance/advanced_optimization.py:792: Line too long (142 chars)",
+        "src/python/active_inference/performance/caching.py:372: Line too long (122 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:201: Line too long (175 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:202: Line too long (155 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:396: Line too long (145 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:397: Line too long (164 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:679: Line too long (139 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:680: Line too long (148 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:681: Line too long (156 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:912: Line too long (142 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:913: Line too long (151 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:921: Line too long (145 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:922: Line too long (136 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:1258: Line too long (160 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:1360: Line too long (126 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:1427: Line too long (153 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:1428: Line too long (165 chars)",
+        "src/python/active_inference/research/advanced_algorithms.py:1430: Line too long (169 chars)",
+        "src/python/active_inference/research/analysis.py:120: Line too long (137 chars)",
+        "src/python/active_inference/research/analysis.py:168: Line too long (134 chars)",
+        "src/python/active_inference/research/analysis.py:477: Line too long (139 chars)",
+        "src/python/active_inference/research/novel_benchmarks.py:118: Line too long (133 chars)",
+        "src/python/active_inference/research/novel_benchmarks.py:178: Line too long (123 chars)",
+        "src/python/active_inference/research/novel_benchmarks.py:393: Line too long (164 chars)",
+        "src/python/active_inference/research/novel_benchmarks.py:1027: Line too long (127 chars)",
+        "src/python/active_inference/security/threat_detection.py:213: Line too long (128 chars)",
+        "src/python/active_inference/utils/advanced_validation.py:216: Line too long (125 chars)",
+        "src/python/active_inference/utils/advanced_validation.py:315: Line too long (122 chars)",
+        "src/python/active_inference/utils/advanced_validation.py:370: Line too long (124 chars)",
+        "src/python/active_inference/utils/advanced_validation.py:1162: Line too long (122 chars)"
+      ]
+    },
+    "security_validation": {
+      "passed": 67,
+      "failed": 24,
+      "issues": [
+        {
+          "file": "production_deployment.py",
+          "line": 83,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "production_deployment.py",
+          "line": 84,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "production_deployment.py",
+          "line": 85,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "production_deployment.py",
+          "line": 86,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "production_deployment.py",
+          "line": 87,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "production_deployment.py",
+          "line": 107,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\"
+        },
+        {
+          "file": "quality_gates_validation.py",
+          "line": 54,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\\\\\.*'],"
+        },
+        {
+          "file": "robust_demo.py",
+          "line": 105,
+          "threat_type": "path_traversal",
+          "pattern": "\\.\\./.*",
+          "match": "../../malicious_path\""
+        },
+        {
+          "file": "setup.py",
+          "line": 91,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\\"%s\\\\\"' % self.distribution.get_version())"
+        },
+        {
+          "file": ".terragon/autonomous-executor.py",
+          "line": 19,
+          "threat_type": "code_injection",
+          "pattern": "exec\\s*\\(",
+          "match": "exec("
+        },
+        {
+          "file": "docs/conf.py",
+          "line": 223,
+          "threat_type": "path_traversal",
+          "pattern": "\\.\\./.*",
+          "match": "../examples',"
+        },
+        {
+          "file": "docs/conf.py",
+          "line": 148,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\(', '\\\\)']],"
+        },
+        {
+          "file": "docs/conf.py",
+          "line": 149,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\[', '\\\\]']],"
+        },
+        {
+          "file": "src/python/active_inference/security/threat_detection.py",
+          "line": 91,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\\", r\"%2e%2e%2f\", r\"%252e%252e%252f\""
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 466,
+          "threat_type": "code_injection",
+          "pattern": "eval\\s*\\(",
+          "match": "eval("
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 856,
+          "threat_type": "code_injection",
+          "pattern": "eval\\s*\\(",
+          "match": "eval("
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 466,
+          "threat_type": "code_injection",
+          "pattern": "exec\\s*\\(",
+          "match": "exec("
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 856,
+          "threat_type": "code_injection",
+          "pattern": "exec\\s*\\(",
+          "match": "exec("
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 482,
+          "threat_type": "path_traversal",
+          "pattern": "\\.\\./.*",
+          "match": "../', '..\\\\', '/etc/', 'C:\\\\Windows', '/proc/']"
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 860,
+          "threat_type": "path_traversal",
+          "pattern": "\\.\\./.*",
+          "match": "../', '..\\\\', '/etc/passwd', 'C:\\\\Windows'],"
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 482,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\', '/etc/', 'C:\\\\Windows', '/proc/']"
+        },
+        {
+          "file": "src/python/active_inference/utils/advanced_validation.py",
+          "line": 860,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\', '/etc/passwd', 'C:\\\\Windows'],"
+        },
+        {
+          "file": "src/python/active_inference/utils/caching.py",
+          "line": 418,
+          "threat_type": "unsafe_pickle",
+          "pattern": "pickle\\.loads?\\s*\\(",
+          "match": "pickle.load("
+        },
+        {
+          "file": "src/python/active_inference/utils/security.py",
+          "line": 85,
+          "threat_type": "path_traversal",
+          "pattern": "\\\\\\\\.*",
+          "match": "\\\\/]\","
+        }
+      ]
+    },
+    "performance_validation": {
+      "passed": 1,
+      "failed": 0,
+      "metrics": {
+        "total_lines_of_code": 26221,
+        "total_functions": 1159,
+        "complex_functions": 41,
+        "complexity_ratio": 0.03537532355478861,
+        "average_file_size": 301.39080459770116
+      }
+    },
+    "architecture_validation": {
+      "passed": 12,
+      "failed": 0,
+      "violations": []
+    },
+    "research_validation": {
+      "passed": 8,
+      "failed": 0,
+      "missing": []
+    }
+  },
+  "recommendations": [
+    "Address 24 security issues immediately",
+    "Run additional security scanning with tools like bandit",
+    "Set up automated CI/CD pipeline for continuous quality validation",
+    "Implement comprehensive unit and integration tests",
+    "Add performance benchmarking to detect regressions",
+    "Consider setting up dependency vulnerability scanning"
+  ],
+  "summary": {
+    "syntax_issues": 71,
+    "security_issues": 24,
+    "architecture_violations": 0,
+    "missing_research_components": 0
+  }
+}
