@@ -1,0 +1,33 @@
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build and push Docker image
+      run: docker build -f Dockerfile.production -t active-inference:latest .
+    - name: Deploy to production
+      run: echo "Deployment would happen here"
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run quality gates
+      run: python quality_gates.py
+    - name: Run tests
+      run: python -m pytest tests/ -v
+name: Production Deployment
+'on':
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main

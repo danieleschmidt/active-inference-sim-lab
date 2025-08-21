@@ -1,0 +1,132 @@
+{
+  "suite_info": {
+    "total_execution_time": 3.111689329147339,
+    "benchmarks_run": [
+      "temporal_coherence",
+      "meta_learning",
+      "quantum_information",
+      "multimodal_fusion",
+      "emergent_behavior"
+    ],
+    "timestamp": 1755812322.8480766
+  },
+  "overall_performance": {
+    "mean_score": 0.0,
+    "std_score": 0.0,
+    "min_score": 0.0,
+    "max_score": 0.0,
+    "score_range": 0.0
+  },
+  "benchmark_results": {
+    "temporal_coherence": {
+      "score": 0.0,
+      "relative_performance": 0.0,
+      "execution_time": 0.0,
+      "novel_metrics": {
+        "temporal_coherence": null,
+        "meta_learning_efficiency": null,
+        "quantum_advantage": null,
+        "multimodal_integration_quality": null,
+        "emergent_behavior_score": null
+      },
+      "metadata": {
+        "error": "list index out of range"
+      }
+    },
+    "meta_learning": {
+      "score": 0.0,
+      "relative_performance": 0.0,
+      "execution_time": 0.0009484291076660156,
+      "novel_metrics": {
+        "temporal_coherence": null,
+        "meta_learning_efficiency": 0.0,
+        "quantum_advantage": null,
+        "multimodal_integration_quality": null,
+        "emergent_behavior_score": null
+      },
+      "metadata": {
+        "error": "observation has shape (4,), expected (8,)"
+      }
+    },
+    "quantum_information": {
+      "score": 0.0,
+      "relative_performance": 0.0,
+      "execution_time": 1.8521101474761963,
+      "novel_metrics": {
+        "temporal_coherence": null,
+        "meta_learning_efficiency": null,
+        "quantum_advantage": 0.0,
+        "multimodal_integration_quality": null,
+        "emergent_behavior_score": null
+      },
+      "metadata": {
+        "error": "too many values to unpack (expected 3)"
+      }
+    },
+    "multimodal_fusion": {
+      "score": 0.0,
+      "relative_performance": 0.0,
+      "execution_time": 0.0026237964630126953,
+      "novel_metrics": {
+        "temporal_coherence": null,
+        "meta_learning_efficiency": null,
+        "quantum_advantage": null,
+        "multimodal_integration_quality": 0.0,
+        "emergent_behavior_score": null
+      },
+      "metadata": {
+        "error": "too many values to unpack (expected 3)"
+      }
+    },
+    "emergent_behavior": {
+      "score": 0.0,
+      "relative_performance": 0.0,
+      "execution_time": 1.2544314861297607,
+      "novel_metrics": {
+        "temporal_coherence": null,
+        "meta_learning_efficiency": null,
+        "quantum_advantage": null,
+        "multimodal_integration_quality": null,
+        "emergent_behavior_score": 0.0
+      },
+      "metadata": {
+        "error": "too many values to unpack (expected 3)"
+      }
+    }
+  },
+  "research_insights": {
+    "temporal_hierarchies": {},
+    "meta_learning_capabilities": {},
+    "quantum_inspired_advantages": {},
+    "multimodal_integration": {},
+    "emergent_behaviors": {},
+    "cross_domain_analysis": {
+      "performance_consistency": 0,
+      "research_breadth": 0,
+      "overall_research_impact": 0.0
+    }
+  },
+  "statistical_analysis": {
+    "sample_size": 5,
+    "statistical_power": 0.8,
+    "descriptive_statistics": {
+      "mean": 0.0,
+      "median": 0.0,
+      "std": 0.0,
+      "skewness": 0.0,
+      "kurtosis": 0.0
+    },
+    "confidence_interval_95": {
+      "lower": NaN,
+      "upper": NaN
+    },
+    "effect_sizes": {
+      "cohens_d": 0.0,
+      "practical_significance": "False"
+    },
+    "performance_efficiency": {
+      "mean_execution_time": 0.6220227718353272,
+      "time_complexity_estimate": "O(1) - Constant"
+    }
+  }
+}
