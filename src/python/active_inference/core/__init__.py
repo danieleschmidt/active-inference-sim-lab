@@ -9,6 +9,7 @@ from .agent import ActiveInferenceAgent
 from .generative_model import GenerativeModel
 from .free_energy import FreeEnergyObjective
 from .beliefs import Belief, BeliefState
+from .circuit_breaker import CircuitBreaker, CircuitBreakerConfig, circuit_breaker, circuit_registry
 
 __all__ = [
     "ActiveInferenceAgent",
@@ -16,4 +17,8 @@ __all__ = [
     "FreeEnergyObjective", 
     "Belief",
     "BeliefState",
+    "CircuitBreaker",
+    "CircuitBreakerConfig",
+    "circuit_breaker",
+    "circuit_registry",
 ]
