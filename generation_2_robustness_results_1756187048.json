@@ -1,0 +1,488 @@
+{
+  "generation": 2,
+  "demo_type": "robustness_comprehensive",
+  "total_time": 23.83415460586548,
+  "robustness_features_tested": 9,
+  "overall_health_score": 61.875,
+  "results": {
+    "monitoring": {
+      "metrics_recorded": 5,
+      "traces_completed": 5,
+      "health_checks": 4,
+      "telemetry_stats": {
+        "metrics_collected": 1,
+        "traces_collected": 5,
+        "buffer_overflows": 0,
+        "collection_errors": 0,
+        "flush_count": 0,
+        "last_flush_time": 0.0,
+        "metrics_buffer_size": 1,
+        "traces_buffer_size": 5,
+        "active_traces_count": 0,
+        "health_components_count": 4,
+        "buffer_utilization_pct": 0.01,
+        "is_running": true
+      },
+      "health_summary": {
+        "overall_status": "degraded",
+        "total_components": 4,
+        "healthy_components": 3,
+        "degraded_components": 1,
+        "critical_components": 0,
+        "unknown_components": 0,
+        "components_by_status": {
+          "healthy": [
+            "agent_core",
+            "inference_engine",
+            "planning_system"
+          ],
+          "degraded": [
+            "memory_system"
+          ]
+        },
+        "last_updated": 1756187025.1278582
+      },
+      "success": true
+    },
+    "circuit_breakers": {
+      "circuit_breakers_tested": 3,
+      "successful_protections": 0,
+      "circuit_test_results": {
+        "fast_fail": {
+          "success_count": 17,
+          "failure_count": 3,
+          "final_state": "closed",
+          "success_rate": 85.0
+        },
+        "tolerant": {
+          "success_count": 18,
+          "failure_count": 2,
+          "final_state": "closed",
+          "success_rate": 90.0
+        },
+        "sensitive": {
+          "success_count": 18,
+          "failure_count": 2,
+          "final_state": "closed",
+          "success_rate": 90.0
+        }
+      },
+      "success": true
+    },
+    "bulkhead_isolation": {
+      "bulkheads_tested": 3,
+      "isolation_effectiveness": 0.6666666666666666,
+      "bulkhead_test_results": {
+        "critical_ops": {
+          "completed_requests": 20,
+          "rejected_requests": 10,
+          "bulkhead_stats": {
+            "total_requests": 30,
+            "completed_requests": 20,
+            "rejected_requests": 10,
+            "timeout_requests": 0,
+            "active_requests": 0,
+            "queue_length": 14,
+            "name": "test_critical_ops",
+            "max_concurrent_requests": 5,
+            "queue_size": 10
+          }
+        },
+        "background_ops": {
+          "completed_requests": 30,
+          "rejected_requests": 0,
+          "bulkhead_stats": {
+            "total_requests": 30,
+            "completed_requests": 30,
+            "rejected_requests": 0,
+            "timeout_requests": 0,
+            "active_requests": 0,
+            "queue_length": 9,
+            "name": "test_background_ops",
+            "max_concurrent_requests": 10,
+            "queue_size": 50
+          }
+        },
+        "batch_ops": {
+          "completed_requests": 20,
+          "rejected_requests": 10,
+          "bulkhead_stats": {
+            "total_requests": 30,
+            "completed_requests": 20,
+            "rejected_requests": 10,
+            "timeout_requests": 0,
+            "active_requests": 0,
+            "queue_length": 16,
+            "name": "test_batch_ops",
+            "max_concurrent_requests": 3,
+            "queue_size": 5
+          }
+        }
+      },
+      "success": true
+    },
+    "retry_mechanisms": {
+      "retry_strategies_tested": 3,
+      "successful_recoveries": 3,
+      "retry_test_results": {
+        "exponential_backoff": {
+          "result": "success_after_retries",
+          "attempts_needed": 3,
+          "retry_time": 0.28662753105163574,
+          "success": true
+        },
+        "linear_backoff": {
+          "result": "success_after_retries",
+          "attempts_needed": 3,
+          "retry_time": 0.6014947891235352,
+          "success": true
+        },
+        "constant_retry": {
+          "result": "success_after_retries",
+          "attempts_needed": 3,
+          "retry_time": 0.21501779556274414,
+          "success": true
+        }
+      },
+      "retry_stats": {
+        "flaky_function": {
+          "total_attempts": 9,
+          "successful_retries": 3,
+          "failed_retries": 0,
+          "total_delay_time": 0.0
+        }
+      },
+      "success": true
+    },
+    "anomaly_detection": {
+      "anomalies_injected": 5,
+      "anomalies_detected": 4,
+      "detected_anomaly_details": [
+        {
+          "timestamp": 1756187028.4907513,
+          "metric_name": "test_metric_for_anomaly_detection",
+          "value": 25.0,
+          "expected_mean": 10.018675915280832,
+          "std_dev": 2.325557096674288,
+          "z_score": 6.442036665598762,
+          "anomaly_type": "statistical_outlier",
+          "severity": "critical"
+        },
+        {
+          "timestamp": 1756187028.4914594,
+          "metric_name": "test_metric_for_anomaly_detection",
+          "value": -5.0,
+          "expected_mean": 9.729855224602355,
+          "std_dev": 3.09168216659888,
+          "z_score": 4.76434977169936,
+          "anomaly_type": "statistical_outlier",
+          "severity": "high"
+        },
+        {
+          "timestamp": 1756187028.4918044,
+          "metric_name": "test_metric_for_anomaly_detection",
+          "value": 30.0,
+          "expected_mean": 10.112310786402311,
+          "std_dev": 4.121202123143536,
+          "z_score": 4.825701001635883,
+          "anomaly_type": "statistical_outlier",
+          "severity": "high"
+        },
+        {
+          "timestamp": 1756187028.492048,
+          "metric_name": "test_metric_for_anomaly_detection",
+          "value": 100.0,
+          "expected_mean": 11.776897623691157,
+          "std_dev": 12.787681482489461,
+          "z_score": 6.899069428427293,
+          "anomaly_type": "statistical_outlier",
+          "severity": "critical"
+        }
+      ],
+      "anomaly_summary": {
+        "total_anomalies": 4,
+        "recent_anomalies_1h": 4,
+        "by_severity": {
+          "critical": 2,
+          "high": 2
+        },
+        "by_metric": {
+          "test_metric_for_anomaly_detection": 4
+        },
+        "metrics_monitored": 6,
+        "last_anomaly_time": 1756187028.492048
+      },
+      "recent_anomalies_count": 4,
+      "detection_rate": 0.8,
+      "success": true
+    },
+    "performance_profiling": {
+      "functions_profiled": 3,
+      "memory_snapshots": 0,
+      "function_profiles": [
+        {
+          "call_count": 5,
+          "total_time": 0.5023643970489502,
+          "min_time": 0.10034632682800293,
+          "max_time": 0.10072088241577148,
+          "avg_time": 0.10047287940979004,
+          "last_call_time": 0.1004023551940918,
+          "success_count": 5,
+          "error_count": 0,
+          "success_rate": 1.0,
+          "function_name": "slow_operation"
+        },
+        {
+          "call_count": 5,
+          "total_time": 0.051566123962402344,
+          "min_time": 0.010272979736328125,
+          "max_time": 0.010394573211669922,
+          "avg_time": 0.01031322479248047,
+          "last_call_time": 0.010283470153808594,
+          "success_count": 5,
+          "error_count": 0,
+          "success_rate": 1.0,
+          "function_name": "fast_operation"
+        },
+        {
+          "call_count": 5,
+          "total_time": 0.020112991333007812,
+          "min_time": 0.003500223159790039,
+          "max_time": 0.0044591426849365234,
+          "avg_time": 0.0040225982666015625,
+          "last_call_time": 0.004004240036010742,
+          "success_count": 5,
+          "error_count": 0,
+          "success_rate": 1.0,
+          "function_name": "memory_intensive_operation"
+        }
+      ],
+      "memory_trend": {
+        "trend": "no_data",
+        "snapshots": []
+      },
+      "performance_recommendations": [
+        {
+          "type": "performance",
+          "severity": "medium",
+          "component": "slow_operation",
+          "issue": "Function is averaging 0.100s per call",
+          "recommendation": "Consider optimizing this function or adding caching"
+        }
+      ],
+      "success": true
+    },
+    "fault_injection": {
+      "fault_types_tested": 4,
+      "recovery_successful": 3,
+      "fault_test_results": {
+        "timeout_fault": {
+          "result": "timeout_completed",
+          "recovery_time": 5.000558137893677,
+          "recovered": true
+        },
+        "resource_exhaustion": {
+          "result": "fallback_executed",
+          "recovery_time": 1.7568509578704834,
+          "recovered": true
+        },
+        "computation_error": {
+          "result": "fallback_executed",
+          "recovery_time": 0.30040955543518066,
+          "recovered": true
+        },
+        "validation_error": {
+          "result": "fallback_executed",
+          "recovery_time": 0.31362366676330566,
+          "recovered": true
+        }
+      },
+      "system_health_post_faults": {
+        "system_health_score": 16.666666666666664,
+        "circuit_breakers": {
+          "test_fast_fail": {
+            "state": "closed",
+            "success_rate": 85.0,
+            "is_healthy": false
+          },
+          "test_tolerant": {
+            "state": "closed",
+            "success_rate": 90.0,
+            "is_healthy": false
+          },
+          "test_sensitive": {
+            "state": "closed",
+            "success_rate": 90.0,
+            "is_healthy": false
+          }
+        },
+        "bulkheads": {
+          "test_critical_ops": {
+            "active_requests": 0,
+            "rejection_rate": 33.33333333333333,
+            "is_healthy": false
+          },
+          "test_background_ops": {
+            "active_requests": 0,
+            "rejection_rate": 0.0,
+            "is_healthy": true
+          },
+          "test_batch_ops": {
+            "active_requests": 0,
+            "rejection_rate": 33.33333333333333,
+            "is_healthy": false
+          }
+        },
+        "fault_statistics": {
+          "resource_exhaustion": 1,
+          "total": 3,
+          "validation_error": 2
+        },
+        "recent_fault_count": 3,
+        "fault_rate": 1.0,
+        "self_healing_active": true,
+        "total_fault_events": 3
+      },
+      "recovery_rate": 0.75,
+      "success": true
+    },
+    "self_healing": {
+      "healing_callbacks_registered": 3,
+      "healing_activations": 0,
+      "healing_events": [],
+      "healing_effectiveness": 0.0,
+      "success": true
+    },
+    "health_assessment": {
+      "overall_health_score": 61.875,
+      "telemetry_health": {
+        "overall_status": "degraded",
+        "total_components": 4,
+        "healthy_components": 3,
+        "degraded_components": 1,
+        "critical_components": 0,
+        "unknown_components": 0,
+        "components_by_status": {
+          "healthy": [
+            "agent_core",
+            "inference_engine",
+            "planning_system"
+          ],
+          "degraded": [
+            "memory_system"
+          ]
+        },
+        "last_updated": 1756187025.1278582
+      },
+      "fault_system_health": {
+        "system_health_score": 12.5,
+        "circuit_breakers": {
+          "test_fast_fail": {
+            "state": "closed",
+            "success_rate": 85.0,
+            "is_healthy": false
+          },
+          "test_tolerant": {
+            "state": "closed",
+            "success_rate": 90.0,
+            "is_healthy": false
+          },
+          "test_sensitive": {
+            "state": "closed",
+            "success_rate": 90.0,
+            "is_healthy": false
+          },
+          "healing_test_cb1": {
+            "state": "open",
+            "success_rate": 0.0,
+            "is_healthy": false
+          },
+          "healing_test_cb2": {
+            "state": "open",
+            "success_rate": 0.0,
+            "is_healthy": false
+          }
+        },
+        "bulkheads": {
+          "test_critical_ops": {
+            "active_requests": 0,
+            "rejection_rate": 33.33333333333333,
+            "is_healthy": false
+          },
+          "test_background_ops": {
+            "active_requests": 0,
+            "rejection_rate": 0.0,
+            "is_healthy": true
+          },
+          "test_batch_ops": {
+            "active_requests": 0,
+            "rejection_rate": 33.33333333333333,
+            "is_healthy": false
+          }
+        },
+        "fault_statistics": {
+          "resource_exhaustion": 1,
+          "total": 3,
+          "validation_error": 2
+        },
+        "recent_fault_count": 3,
+        "fault_rate": 1.0,
+        "self_healing_active": true,
+        "total_fault_events": 3
+      },
+      "anomaly_summary": {
+        "total_anomalies": 4,
+        "recent_anomalies_1h": 4,
+        "by_severity": {
+          "critical": 2,
+          "high": 2
+        },
+        "by_metric": {
+          "test_metric_for_anomaly_detection": 4
+        },
+        "metrics_monitored": 6,
+        "last_anomaly_time": 1756187028.492048
+      },
+      "agent_health": {
+        "robust_agent": {
+          "health_status": "healthy",
+          "error_rate": 0,
+          "is_healthy": true
+        },
+        "stress_agent": {
+          "health_status": "healthy",
+          "error_rate": 0,
+          "is_healthy": true
+        }
+      },
+      "health_factors": {
+        "telemetry_score": 75.0,
+        "fault_score": 12.5,
+        "anomaly_score": 60,
+        "agent_score": 100.0
+      },
+      "success": true
+    }
+  },
+  "system_resilience_metrics": {
+    "fault_tolerance_score": 75.0,
+    "recovery_effectiveness": 0.0,
+    "monitoring_coverage": 70,
+    "self_healing_capability": 0.0
+  },
+  "recommendations": [
+    {
+      "type": "fault_tolerance",
+      "priority": "medium",
+      "issue": "Some circuit breakers not providing adequate protection",
+      "recommendation": "Review and tune circuit breaker thresholds"
+    },
+    {
+      "type": "resilience",
+      "priority": "medium",
+      "issue": "Self-healing effectiveness is 0.0%",
+      "recommendation": "Implement more comprehensive self-healing callbacks"
+    }
+  ],
+  "timestamp": 1756187048.744547
+}
