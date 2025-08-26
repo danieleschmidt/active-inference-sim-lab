@@ -1,0 +1,519 @@
+{
+  "generation": 3,
+  "demo_type": "scalability_comprehensive",
+  "scalability_features_tested": 5,
+  "overall_performance_score": 45.0,
+  "results": {
+    "performance_optimization": {
+      "benchmark_results": {
+        "total_time": 0.01250910758972168,
+        "sequential_time": 0.008468151092529297,
+        "parallel_time": 0.004038810729980469,
+        "speedup": 2.0966942148760332,
+        "performance_stats": {
+          "cache_stats": {
+            "hits": 200,
+            "misses": 200,
+            "hit_rate": 0.5,
+            "size": 200,
+            "max_size": 1000
+          },
+          "memory_pool_stats": {
+            "allocations": 702,
+            "pool_hits": 0,
+            "pool_hit_rate": 0.0,
+            "active_pools": 2
+          },
+          "operation_times": {
+            "belief_update": {
+              "mean": 2.1152496337890625e-05,
+              "std": 2.0911309615256993e-05,
+              "min": 1.5735626220703125e-05,
+              "max": 0.00021195411682128906,
+              "count": 100
+            },
+            "action_selection": {
+              "mean": 5.9614181518554686e-05,
+              "std": 1.836435785468551e-05,
+              "min": 4.935264587402344e-05,
+              "max": 0.0001685619354248047,
+              "count": 100
+            }
+          },
+          "optimization_suggestions": {
+            "batch_size": 38.4
+          }
+        },
+        "iterations_completed": 100
+      },
+      "cache_performance": {
+        "hits": 200,
+        "misses": 200,
+        "hit_rate": 0.5,
+        "size": 200,
+        "max_size": 1000
+      },
+      "memory_pool_performance": {
+        "allocations": 702,
+        "pool_hits": 0,
+        "pool_hit_rate": 0.0,
+        "active_pools": 2
+      },
+      "optimization_suggestions": {
+        "batch_size": 38.4
+      },
+      "success": true
+    },
+    "scalable_framework": {
+      "processing_time": 0.030409574508666992,
+      "requests_processed": 100,
+      "throughput": 3288.437987565368,
+      "framework_stats": {
+        "total_agents": 2,
+        "max_agents": 8,
+        "agent_stats": [
+          {
+            "cache_stats": {
+              "hits": 0,
+              "misses": 100,
+              "hit_rate": 0.0,
+              "size": 100,
+              "max_size": 1000
+            },
+            "memory_pool_stats": {
+              "allocations": 352,
+              "pool_hits": 0,
+              "pool_hit_rate": 0.0,
+              "active_pools": 2
+            },
+            "operation_times": {
+              "belief_update": {
+                "mean": 0.0005021858215332032,
+                "std": 0.001087440536264279,
+                "min": 6.0558319091796875e-05,
+                "max": 0.0061686038970947266,
+                "count": 50
+              },
+              "action_selection": {
+                "mean": 0.00045369625091552736,
+                "std": 0.001496057680025772,
+                "min": 8.273124694824219e-05,
+                "max": 0.01000356674194336,
+                "count": 50
+              }
+            },
+            "optimization_suggestions": {
+              "batch_size": 38.4
+            },
+            "agent_id": 0
+          },
+          {
+            "cache_stats": {
+              "hits": 0,
+              "misses": 100,
+              "hit_rate": 0.0,
+              "size": 100,
+              "max_size": 1000
+            },
+            "memory_pool_stats": {
+              "allocations": 352,
+              "pool_hits": 0,
+              "pool_hit_rate": 0.0,
+              "active_pools": 2
+            },
+            "operation_times": {
+              "belief_update": {
+                "mean": 0.0012990570068359376,
+                "std": 0.002677937632095016,
+                "min": 7.963180541992188e-05,
+                "max": 0.012000560760498047,
+                "count": 50
+              },
+              "action_selection": {
+                "mean": 0.00035617351531982424,
+                "std": 0.0009688487720795225,
+                "min": 8.130073547363281e-05,
+                "max": 0.006501436233520508,
+                "count": 50
+              }
+            },
+            "optimization_suggestions": {
+              "batch_size": 38.4
+            },
+            "agent_id": 1
+          }
+        ],
+        "load_balancer_position": 0
+      },
+      "auto_scaling": {
+        "scale_up_success": true,
+        "scale_down_success": true
+      },
+      "success": true
+    },
+    "distributed_processing": {
+      "benchmark_results": {
+        "total_time": 60.02385473251343,
+        "observations_processed": 150,
+        "tasks_completed": 0,
+        "throughput": 2.4990064478272958,
+        "cluster_performance": {
+          "coordinator_status": {
+            "coordinator_id": "f841c14c-9399-40ea-a38d-02b1b86353fc",
+            "total_workers": 0,
+            "active_workers": 0,
+            "pending_tasks": 0,
+            "total_tasks": 3,
+            "cluster_stats": {
+              "total_tasks_processed": 0,
+              "total_execution_time": 0.0,
+              "average_task_time": 0.0,
+              "worker_utilization": 0.0
+            },
+            "worker_details": []
+          },
+          "worker_statuses": [
+            {
+              "node_id": "dec700cb-43b9-4c96-9b30-8c66dc22de0a",
+              "role": "worker",
+              "host": "e2b.local",
+              "port": 8081,
+              "running": true,
+              "load_factor": 0.0,
+              "active_tasks": 0,
+              "queued_tasks": 0,
+              "completed_tasks": 0,
+              "execution_stats": {
+                "tasks_completed": 0,
+                "tasks_failed": 0,
+                "total_execution_time": 0.0,
+                "average_task_time": 0.0
+              },
+              "capabilities": {
+                "active_inference": true,
+                "parallel_processing": true,
+                "gpu_acceleration": false,
+                "max_memory_gb": 8,
+                "cpu_cores": 2
+              }
+            },
+            {
+              "node_id": "fe2bde1c-a045-465e-9b26-ca994b92b6c7",
+              "role": "worker",
+              "host": "e2b.local",
+              "port": 8082,
+              "running": true,
+              "load_factor": 0.0,
+              "active_tasks": 0,
+              "queued_tasks": 0,
+              "completed_tasks": 0,
+              "execution_stats": {
+                "tasks_completed": 0,
+                "tasks_failed": 0,
+                "total_execution_time": 0.0,
+                "average_task_time": 0.0
+              },
+              "capabilities": {
+                "active_inference": true,
+                "parallel_processing": true,
+                "gpu_acceleration": false,
+                "max_memory_gb": 8,
+                "cpu_cores": 2
+              }
+            },
+            {
+              "node_id": "7a1d6383-eb8d-4c2c-bc2a-9749b29d2cae",
+              "role": "worker",
+              "host": "e2b.local",
+              "port": 8083,
+              "running": true,
+              "load_factor": 0.0,
+              "active_tasks": 0,
+              "queued_tasks": 0,
+              "completed_tasks": 0,
+              "execution_stats": {
+                "tasks_completed": 0,
+                "tasks_failed": 0,
+                "total_execution_time": 0.0,
+                "average_task_time": 0.0
+              },
+              "capabilities": {
+                "active_inference": true,
+                "parallel_processing": true,
+                "gpu_acceleration": false,
+                "max_memory_gb": 8,
+                "cpu_cores": 2
+              }
+            }
+          ],
+          "cluster_running": true,
+          "total_processing_capacity": 6
+        }
+      },
+      "cluster_performance": {
+        "coordinator_status": {
+          "coordinator_id": "f841c14c-9399-40ea-a38d-02b1b86353fc",
+          "total_workers": 0,
+          "active_workers": 0,
+          "pending_tasks": 0,
+          "total_tasks": 3,
+          "cluster_stats": {
+            "total_tasks_processed": 0,
+            "total_execution_time": 0.0,
+            "average_task_time": 0.0,
+            "worker_utilization": 0.0
+          },
+          "worker_details": []
+        },
+        "worker_statuses": [
+          {
+            "node_id": "dec700cb-43b9-4c96-9b30-8c66dc22de0a",
+            "role": "worker",
+            "host": "e2b.local",
+            "port": 8081,
+            "running": true,
+            "load_factor": 0.0,
+            "active_tasks": 0,
+            "queued_tasks": 0,
+            "completed_tasks": 0,
+            "execution_stats": {
+              "tasks_completed": 0,
+              "tasks_failed": 0,
+              "total_execution_time": 0.0,
+              "average_task_time": 0.0
+            },
+            "capabilities": {
+              "active_inference": true,
+              "parallel_processing": true,
+              "gpu_acceleration": false,
+              "max_memory_gb": 8,
+              "cpu_cores": 2
+            }
+          },
+          {
+            "node_id": "fe2bde1c-a045-465e-9b26-ca994b92b6c7",
+            "role": "worker",
+            "host": "e2b.local",
+            "port": 8082,
+            "running": true,
+            "load_factor": 0.0,
+            "active_tasks": 0,
+            "queued_tasks": 0,
+            "completed_tasks": 0,
+            "execution_stats": {
+              "tasks_completed": 0,
+              "tasks_failed": 0,
+              "total_execution_time": 0.0,
+              "average_task_time": 0.0
+            },
+            "capabilities": {
+              "active_inference": true,
+              "parallel_processing": true,
+              "gpu_acceleration": false,
+              "max_memory_gb": 8,
+              "cpu_cores": 2
+            }
+          },
+          {
+            "node_id": "7a1d6383-eb8d-4c2c-bc2a-9749b29d2cae",
+            "role": "worker",
+            "host": "e2b.local",
+            "port": 8083,
+            "running": true,
+            "load_factor": 0.0,
+            "active_tasks": 0,
+            "queued_tasks": 0,
+            "completed_tasks": 0,
+            "execution_stats": {
+              "tasks_completed": 0,
+              "tasks_failed": 0,
+              "total_execution_time": 0.0,
+              "average_task_time": 0.0
+            },
+            "capabilities": {
+              "active_inference": true,
+              "parallel_processing": true,
+              "gpu_acceleration": false,
+              "max_memory_gb": 8,
+              "cpu_cores": 2
+            }
+          }
+        ],
+        "cluster_running": true,
+        "total_processing_capacity": 6
+      },
+      "distributed_efficiency": 0.0,
+      "success": true
+    },
+    "concurrent_workload": {
+      "processing_time": 0.06998872756958008,
+      "workload_size": 200,
+      "completed_tasks": 200,
+      "failed_tasks": 0,
+      "success_rate": 1.0,
+      "throughput": 2857.60303044755,
+      "agent_stats": [
+        {
+          "cache_stats": {
+            "hits": 0,
+            "misses": 50,
+            "hit_rate": 0.0,
+            "size": 50,
+            "max_size": 1000
+          },
+          "memory_pool_stats": {
+            "allocations": 52,
+            "pool_hits": 0,
+            "pool_hit_rate": 0.0,
+            "active_pools": 1
+          },
+          "operation_times": {
+            "belief_update": {
+              "mean": 0.0007060480117797852,
+              "std": 0.001196781649629533,
+              "min": 8.344650268554688e-05,
+              "max": 0.0067653656005859375,
+              "count": 50
+            }
+          },
+          "optimization_suggestions": {
+            "batch_size": 38.4
+          },
+          "agent_id": 0
+        },
+        {
+          "cache_stats": {
+            "hits": 0,
+            "misses": 50,
+            "hit_rate": 0.0,
+            "size": 50,
+            "max_size": 1000
+          },
+          "memory_pool_stats": {
+            "allocations": 52,
+            "pool_hits": 0,
+            "pool_hit_rate": 0.0,
+            "active_pools": 1
+          },
+          "operation_times": {
+            "belief_update": {
+              "mean": 0.002003540992736816,
+              "std": 0.0033416535235876155,
+              "min": 9.846687316894531e-05,
+              "max": 0.014498233795166016,
+              "count": 50
+            }
+          },
+          "optimization_suggestions": {
+            "batch_size": 38.4
+          },
+          "agent_id": 1
+        },
+        {
+          "cache_stats": {
+            "hits": 0,
+            "misses": 50,
+            "hit_rate": 0.0,
+            "size": 50,
+            "max_size": 1000
+          },
+          "memory_pool_stats": {
+            "allocations": 52,
+            "pool_hits": 0,
+            "pool_hit_rate": 0.0,
+            "active_pools": 1
+          },
+          "operation_times": {
+            "belief_update": {
+              "mean": 0.0019982433319091796,
+              "std": 0.003053455674916116,
+              "min": 0.00010442733764648438,
+              "max": 0.011667251586914062,
+              "count": 50
+            }
+          },
+          "optimization_suggestions": {
+            "batch_size": 38.4
+          },
+          "agent_id": 2
+        },
+        {
+          "cache_stats": {
+            "hits": 0,
+            "misses": 50,
+            "hit_rate": 0.0,
+            "size": 50,
+            "max_size": 1000
+          },
+          "memory_pool_stats": {
+            "allocations": 52,
+            "pool_hits": 0,
+            "pool_hit_rate": 0.0,
+            "active_pools": 1
+          },
+          "operation_times": {
+            "belief_update": {
+              "mean": 0.002229175567626953,
+              "std": 0.003871313674956662,
+              "min": 8.916854858398438e-05,
+              "max": 0.01963210105895996,
+              "count": 50
+            }
+          },
+          "optimization_suggestions": {
+            "batch_size": 38.4
+          },
+          "agent_id": 3
+        }
+      ],
+      "concurrent_agents": 4,
+      "success": true
+    },
+    "resource_efficiency": {
+      "processing_time": 0.012036561965942383,
+      "observations_processed": 100,
+      "initial_memory_stats": {
+        "allocations": 2,
+        "pool_hits": 0,
+        "pool_hit_rate": 0.0,
+        "active_pools": 0
+      },
+      "final_memory_stats": {
+        "allocations": 702,
+        "pool_hits": 0,
+        "pool_hit_rate": 0.0,
+        "active_pools": 2
+      },
+      "cache_efficiency": {
+        "hits": 0,
+        "misses": 200,
+        "hit_rate": 0.0,
+        "size": 200,
+        "max_size": 1000
+      },
+      "memory_pool_efficiency": 0.0,
+      "cache_hit_rate": 0.0,
+      "performance_optimization": {
+        "batch_size": 38.4
+      },
+      "success": true
+    }
+  },
+  "system_scalability_metrics": {
+    "performance_optimization_score": 25.0,
+    "scalability_score": 100,
+    "distributed_processing_score": 0.0,
+    "concurrency_score": 100.0,
+    "resource_efficiency_score": 0.0
+  },
+  "recommendations": [
+    {
+      "type": "resource_efficiency",
+      "priority": "medium",
+      "issue": "Low memory pool efficiency: 0.0%",
+      "recommendation": "Tune memory pool size or allocation patterns"
+    }
+  ],
+  "total_time": 62.173768758773804,
+  "timestamp": 1756187439.0829923
+}

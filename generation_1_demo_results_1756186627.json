@@ -1,0 +1,836 @@
+{
+  "generation": 1,
+  "demo_type": "comprehensive",
+  "total_time": 4.202101469039917,
+  "architectures_tested": 10,
+  "success_rate": 0.8181818181818182,
+  "results": {
+    "hscai": {
+      "test_cases": [
+        {
+          "case": "high_uncertainty",
+          "symbolic_rules_activated": 1,
+          "neural_confidence": 0.5,
+          "symbolic_confidence": 0.9,
+          "processing_time": 0.21735858917236328
+        },
+        {
+          "case": "goal_achieved",
+          "symbolic_rules_activated": 2,
+          "neural_confidence": 0.4999859955251528,
+          "symbolic_confidence": 0.75,
+          "processing_time": 0.5046122074127197
+        },
+        {
+          "case": "positive_feedback",
+          "symbolic_rules_activated": 1,
+          "neural_confidence": 0.4999859955251528,
+          "symbolic_confidence": 0.9,
+          "processing_time": 0.17803192138671875
+        }
+      ],
+      "statistics": {
+        "n_symbolic_rules": 5,
+        "avg_symbolic_activations": 1.3333333333333333,
+        "neural_dominance_rate": 0.0,
+        "avg_integration_quality": 0.49999066368343525,
+        "avg_symbolic_accuracy": 0.85,
+        "rule_acquisition_rate": 0.0,
+        "top_performing_rules": [
+          {
+            "condition": "high_prediction_error",
+            "action": "update_model",
+            "confidence": 0.9,
+            "usage_count": 3,
+            "success_rate": 0.5
+          },
+          {
+            "condition": "goal_achieved",
+            "action": "maintain_action",
+            "confidence": 0.6,
+            "usage_count": 1,
+            "success_rate": 0.5
+          },
+          {
+            "condition": "high_uncertainty",
+            "action": "explore",
+            "confidence": 0.8,
+            "usage_count": 0,
+            "success_rate": 0.5
+          },
+          {
+            "condition": "low_uncertainty",
+            "action": "exploit",
+            "confidence": 0.7,
+            "usage_count": 0,
+            "success_rate": 0.5
+          },
+          {
+            "condition": "repeated_failure",
+            "action": "change_strategy",
+            "confidence": 0.8,
+            "usage_count": 0,
+            "success_rate": 0.5
+          }
+        ],
+        "concept_hierarchy_size": 3,
+        "neural_symbolic_balance": 0.5
+      },
+      "success": true
+    },
+    "compositional": {
+      "goal_achievements": [
+        {
+          "goal": "move forward and then turn right to explore the area",
+          "composition_complexity": 3,
+          "reasoning_time": 0.0001068115234375,
+          "required_skills": [
+            "move_forward",
+            "turn_right",
+            "explore"
+          ],
+          "execution_success": 0.6666666666666666
+        },
+        {
+          "goal": "explore the environment and observe interesting patterns",
+          "composition_complexity": 2,
+          "reasoning_time": 4.291534423828125e-05,
+          "required_skills": [
+            "explore",
+            "observe"
+          ],
+          "execution_success": 0.5
+        },
+        {
+          "goal": "approach the target and wait for the right moment",
+          "composition_complexity": 3,
+          "reasoning_time": 9.489059448242188e-05,
+          "required_skills": [
+            "turn_right",
+            "approach_target",
+            "wait"
+          ],
+          "execution_success": 0.6666666666666666
+        }
+      ],
+      "statistics": {
+        "n_primitive_skills": 8,
+        "n_composite_skills": 3,
+        "n_emergent_behaviors": 0,
+        "avg_composition_success": 0.0,
+        "avg_composition_complexity": 2.6666666666666665,
+        "skill_reuse_rate": 0.4262626262626263,
+        "total_compositions_attempted": 3,
+        "most_used_skills": [
+          {
+            "skill": "turn_right",
+            "usage_count": 2,
+            "success_rate": 0.757
+          },
+          {
+            "skill": "move_forward",
+            "usage_count": 1,
+            "success_rate": 0.73
+          },
+          {
+            "skill": "observe",
+            "usage_count": 1,
+            "success_rate": 0.73
+          },
+          {
+            "skill": "wait",
+            "usage_count": 1,
+            "success_rate": 0.73
+          },
+          {
+            "skill": "explore",
+            "usage_count": 0,
+            "success_rate": 0.5670000000000001
+          }
+        ],
+        "best_performing_skills": [
+          {
+            "skill": "turn_right",
+            "success_rate": 0.757,
+            "usage_count": 2
+          },
+          {
+            "skill": "move_forward",
+            "success_rate": 0.73,
+            "usage_count": 1
+          },
+          {
+            "skill": "observe",
+            "success_rate": 0.73,
+            "usage_count": 1
+          },
+          {
+            "skill": "wait",
+            "success_rate": 0.73,
+            "usage_count": 1
+          },
+          {
+            "skill": "move_backward",
+            "success_rate": 0.7,
+            "usage_count": 0
+          }
+        ],
+        "recent_emergent_behaviors": []
+      },
+      "success": true
+    },
+    "causal": {
+      "causal_scenarios": [
+        {
+          "scenario": "goal_directed_intervention",
+          "causal_relations_discovered": 0,
+          "interventions_planned": 0,
+          "reasoning_time": 0.1825087070465088,
+          "counterfactual_analysis": {
+            "no_intervention_prediction": {
+              "observation_magnitude": 1.5776216088344293,
+              "prediction_error": 18.38278871895352,
+              "uncertainty": 0.9584284578509976,
+              "action_magnitude": -0.09564589073456582,
+              "exploration_tendency": 0.892257608029628,
+              "goal_progress": 0.6756109391484951
+            },
+            "with_intervention_prediction": {
+              "observation_magnitude": 1.374772708486752,
+              "prediction_error": 18.420680811175462,
+              "uncertainty": 0.8502067027388567,
+              "action_magnitude": 0.0,
+              "exploration_tendency": 1.0,
+              "goal_progress": 0.7610905572740557
+            },
+            "counterfactual_differences": {
+              "observation_magnitude": -0.20284890034767722,
+              "prediction_error": 0.037892092221941454,
+              "uncertainty": -0.10822175511214094,
+              "action_magnitude": 0.09564589073456582,
+              "exploration_tendency": 0.10774239197037205,
+              "goal_progress": 0.0854796181255606
+            },
+            "goal_achievement_improvement": 0.00039000862091576743,
+            "intervention_necessity": 0.9501634793309481,
+            "intervention_sufficiency": 0.05022652928996761
+          }
+        }
+      ],
+      "error": "'action'",
+      "success": false
+    },
+    "continual": {
+      "ewc": {
+        "tasks_completed": 3,
+        "task_results": [
+          {
+            "task_id": "navigation",
+            "initialization": {
+              "task_id": "navigation",
+              "previous_task": null,
+              "consolidation_result": null,
+              "initialization_time": 9.489059448242188e-05,
+              "n_previous_tasks": 0
+            },
+            "transfer_learning": {
+              "forward_transfer": 0.0,
+              "backward_transfer": 0.0
+            }
+          },
+          {
+            "task_id": "exploration",
+            "initialization": {
+              "task_id": "exploration",
+              "previous_task": "navigation",
+              "consolidation_result": {
+                "task_id": "navigation",
+                "fisher_information_computed": true,
+                "n_important_parameters": 7,
+                "consolidation_time": 1.3668859004974365,
+                "avg_importance_weight": 0.1428735110125907
+              },
+              "initialization_time": 1.3669567108154297,
+              "n_previous_tasks": 1
+            },
+            "transfer_learning": {
+              "forward_transfer": -0.2528678756891004,
+              "backward_transfer": -0.0,
+              "n_tasks_evaluated": 2
+            }
+          },
+          {
+            "task_id": "manipulation",
+            "initialization": {
+              "task_id": "manipulation",
+              "previous_task": "exploration",
+              "consolidation_result": {
+                "task_id": "exploration",
+                "fisher_information_computed": true,
+                "n_important_parameters": 7,
+                "consolidation_time": 0.002080202102661133,
+                "avg_importance_weight": 0.0
+              },
+              "initialization_time": 0.0021424293518066406,
+              "n_previous_tasks": 2
+            },
+            "transfer_learning": {
+              "forward_transfer": 0.29184816849789386,
+              "backward_transfer": -0.0,
+              "n_tasks_evaluated": 3
+            }
+          }
+        ],
+        "statistics": {
+          "current_task": "manipulation",
+          "n_tasks_learned": 3,
+          "n_task_switches": 3,
+          "avg_catastrophic_forgetting": 0.0,
+          "avg_forward_transfer": 0.019490146404396724,
+          "avg_backward_transfer": 0.0,
+          "total_protected_parameters": 14,
+          "ewc_lambda": 1000.0,
+          "task_memory_sizes": {
+            "navigation": 5,
+            "exploration": 5,
+            "manipulation": 5
+          }
+        },
+        "success": true
+      },
+      "memory": {
+        "experiences_stored": 20,
+        "replay_sessions": 5,
+        "statistics": {
+          "memory_size": 20,
+          "memory_capacity": 1000,
+          "memory_utilization": 0.02,
+          "avg_importance_score": 0.7664356538315464,
+          "importance_score_std": 0.11534809580612913,
+          "n_contexts": 20,
+          "total_replay_count": 5,
+          "avg_memory_replay_count": 4.0,
+          "max_memory_replay_count": 5,
+          "avg_replay_effectiveness": 0.0,
+          "time_since_last_replay": 0.0001316070556640625
+        },
+        "success": true
+      },
+      "progressive": {
+        "task_columns_added": 3,
+        "forward_passes": 3,
+        "freeze_result": {
+          "frozen_columns": [
+            "task_a",
+            "task_b"
+          ],
+          "n_frozen": 2,
+          "n_active": 1
+        },
+        "statistics": {
+          "n_total_columns": 3,
+          "n_frozen_columns": 2,
+          "n_active_columns": 1,
+          "current_column": 2,
+          "total_parameters": 894,
+          "n_lateral_connections": 2,
+          "avg_lateral_connection_strength": 0.41819393202566424,
+          "lateral_connection_std": 0.055972189722617485,
+          "avg_transfer_benefit": 0.043849067182268005,
+          "capacity_expansions": 3,
+          "tasks_learned": [
+            "task_a",
+            "task_b",
+            "task_c"
+          ]
+        },
+        "success": true
+      }
+    },
+    "advanced": {
+      "hierarchical": {
+        "hierarchy_processing": 5,
+        "planning_result": {
+          "level_actions": {
+            "0": "[0.03764962 0.11650021]",
+            "1": "[-0.12031366  0.20562752]",
+            "2": "[-0.01951189 -0.01393109]"
+          },
+          "integrated_action": "[0.00969955 0.12370814]"
+        },
+        "statistics": {
+          "n_levels": 3,
+          "temporal_scales": [
+            1,
+            5,
+            15
+          ],
+          "avg_prediction_error": 0.01945236710374593,
+          "avg_temporal_coherence": 1.0,
+          "level_statistics": {
+            "0": {
+              "level_id": 0,
+              "temporal_scale": 1,
+              "state_dim": 8,
+              "avg_prediction_error": 2.2845359726095116,
+              "prediction_error_trend": 0.40718596282608605,
+              "belief_uncertainty": 1.0
+            },
+            "1": {
+              "level_id": 1,
+              "temporal_scale": 5,
+              "state_dim": 4,
+              "avg_prediction_error": 1.0212612185532886,
+              "prediction_error_trend": 0.18149924572879128,
+              "belief_uncertainty": 1.0
+            },
+            "2": {
+              "level_id": 2,
+              "temporal_scale": 15,
+              "state_dim": 2,
+              "avg_prediction_error": 0.2636324607254249,
+              "prediction_error_trend": 0.04682222975595232,
+              "belief_uncertainty": 1.0
+            }
+          }
+        },
+        "success": true
+      },
+      "meta": {
+        "adaptations_completed": 2,
+        "adaptation_results": [
+          {
+            "task_id": "meta_task_1",
+            "adaptation_steps": [
+              {
+                "step": 0,
+                "adaptation_quality": 0.4831069807975445,
+                "meta_beliefs": {
+                  "task_novelty": 1.0,
+                  "most_similar_task": null,
+                  "task_similarity_scores": {},
+                  "expected_adaptation_difficulty": 1.0,
+                  "transfer_recommendations": {
+                    "use_transfer": false,
+                    "recommended_strategy": "learn_from_scratch"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.0,
+                  "adapted_learning_rate": 0.02,
+                  "adapted_temperature": 1.5,
+                  "original_learning_rate": 0.01,
+                  "original_temperature": 1.0,
+                  "transfer_strategy": "learn_from_scratch"
+                }
+              },
+              {
+                "step": 1,
+                "adaptation_quality": 0.247360499500887,
+                "meta_beliefs": {
+                  "task_novelty": 1.0,
+                  "most_similar_task": null,
+                  "task_similarity_scores": {},
+                  "expected_adaptation_difficulty": 1.0,
+                  "transfer_recommendations": {
+                    "use_transfer": false,
+                    "recommended_strategy": "learn_from_scratch"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.0,
+                  "adapted_learning_rate": 0.04,
+                  "adapted_temperature": 2.25,
+                  "original_learning_rate": 0.02,
+                  "original_temperature": 1.5,
+                  "transfer_strategy": "learn_from_scratch"
+                }
+              },
+              {
+                "step": 2,
+                "adaptation_quality": 0.20920918205092764,
+                "meta_beliefs": {
+                  "task_novelty": 1.0,
+                  "most_similar_task": null,
+                  "task_similarity_scores": {},
+                  "expected_adaptation_difficulty": 1.0,
+                  "transfer_recommendations": {
+                    "use_transfer": false,
+                    "recommended_strategy": "learn_from_scratch"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.0,
+                  "adapted_learning_rate": 0.08,
+                  "adapted_temperature": 3.375,
+                  "original_learning_rate": 0.04,
+                  "original_temperature": 2.25,
+                  "transfer_strategy": "learn_from_scratch"
+                }
+              },
+              {
+                "step": 3,
+                "adaptation_quality": 0.11861937842089582,
+                "meta_beliefs": {
+                  "task_novelty": 1.0,
+                  "most_similar_task": null,
+                  "task_similarity_scores": {},
+                  "expected_adaptation_difficulty": 1.0,
+                  "transfer_recommendations": {
+                    "use_transfer": false,
+                    "recommended_strategy": "learn_from_scratch"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.0,
+                  "adapted_learning_rate": 0.16,
+                  "adapted_temperature": 5.0625,
+                  "original_learning_rate": 0.08,
+                  "original_temperature": 3.375,
+                  "transfer_strategy": "learn_from_scratch"
+                }
+              },
+              {
+                "step": 4,
+                "adaptation_quality": 0.2531789429385897,
+                "meta_beliefs": {
+                  "task_novelty": 1.0,
+                  "most_similar_task": null,
+                  "task_similarity_scores": {},
+                  "expected_adaptation_difficulty": 1.0,
+                  "transfer_recommendations": {
+                    "use_transfer": false,
+                    "recommended_strategy": "learn_from_scratch"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.0,
+                  "adapted_learning_rate": 0.32,
+                  "adapted_temperature": 7.59375,
+                  "original_learning_rate": 0.16,
+                  "original_temperature": 5.0625,
+                  "transfer_strategy": "learn_from_scratch"
+                }
+              }
+            ],
+            "final_adaptation_quality": 0.2531789429385897,
+            "adaptation_time": 0.0003170967102050781,
+            "task_representation": {
+              "task_id": "meta_task_1",
+              "obs_stats": {
+                "mean": "[-0.97493305 -0.22655888  0.69480007 -0.82263113  0.82408658 -0.40640217\n -0.13340302 -0.50114949]",
+                "std": "[1.32133249 0.25181883 0.83239967 0.3011183  0.61336912 0.96196719\n 0.50132046 0.53160598]",
+                "range": "[3.22479615 0.61587767 2.03891957 0.65137859 1.50243991 2.14460886\n 1.13887633 1.27623107]"
+              },
+              "task_embedding": "[-0.97493305 -0.22655888  0.69480007 -0.82263113  0.82408658  1.32133249\n  0.25181883  0.83239967  0.3011183   0.61336912]",
+              "created_time": 1756186625.5895238
+            }
+          },
+          {
+            "task_id": "meta_task_2",
+            "adaptation_steps": [
+              {
+                "step": 0,
+                "adaptation_quality": 0.3777294648310703,
+                "meta_beliefs": {
+                  "task_novelty": 0.556206263529162,
+                  "most_similar_task": "meta_task_1",
+                  "task_similarity_scores": {
+                    "meta_task_1": 0.443793736470838
+                  },
+                  "expected_adaptation_difficulty": 0.556206263529162,
+                  "transfer_recommendations": {
+                    "use_transfer": true,
+                    "source_task": "meta_task_1",
+                    "similarity_score": 0.443793736470838,
+                    "recommended_strategy": "minimal_transfer"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.2,
+                  "adapted_learning_rate": 0.4979860043293319,
+                  "adapted_temperature": 9.705595656837287,
+                  "original_learning_rate": 0.32,
+                  "original_temperature": 7.59375,
+                  "transfer_strategy": "minimal_transfer"
+                }
+              },
+              {
+                "step": 1,
+                "adaptation_quality": 0.37951600167322724,
+                "meta_beliefs": {
+                  "task_novelty": 0.556206263529162,
+                  "most_similar_task": "meta_task_1",
+                  "task_similarity_scores": {
+                    "meta_task_1": 0.443793736470838
+                  },
+                  "expected_adaptation_difficulty": 0.556206263529162,
+                  "transfer_recommendations": {
+                    "use_transfer": true,
+                    "source_task": "meta_task_1",
+                    "similarity_score": 0.443793736470838,
+                    "recommended_strategy": "minimal_transfer"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.2,
+                  "adapted_learning_rate": 0.7749689390871667,
+                  "adapted_temperature": 12.404752204644453,
+                  "original_learning_rate": 0.4979860043293319,
+                  "original_temperature": 9.705595656837287,
+                  "transfer_strategy": "minimal_transfer"
+                }
+              },
+              {
+                "step": 2,
+                "adaptation_quality": 0.3753226229968571,
+                "meta_beliefs": {
+                  "task_novelty": 0.556206263529162,
+                  "most_similar_task": "meta_task_1",
+                  "task_similarity_scores": {
+                    "meta_task_1": 0.443793736470838
+                  },
+                  "expected_adaptation_difficulty": 0.556206263529162,
+                  "transfer_recommendations": {
+                    "use_transfer": true,
+                    "source_task": "meta_task_1",
+                    "similarity_score": 0.443793736470838,
+                    "recommended_strategy": "minimal_transfer"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.2,
+                  "adapted_learning_rate": 1.2060115170479984,
+                  "adapted_temperature": 15.854552641519666,
+                  "original_learning_rate": 0.7749689390871667,
+                  "original_temperature": 12.404752204644453,
+                  "transfer_strategy": "minimal_transfer"
+                }
+              },
+              {
+                "step": 3,
+                "adaptation_quality": 0.5314645533058103,
+                "meta_beliefs": {
+                  "task_novelty": 0.556206263529162,
+                  "most_similar_task": "meta_task_1",
+                  "task_similarity_scores": {
+                    "meta_task_1": 0.443793736470838
+                  },
+                  "expected_adaptation_difficulty": 0.556206263529162,
+                  "transfer_recommendations": {
+                    "use_transfer": true,
+                    "source_task": "meta_task_1",
+                    "similarity_score": 0.443793736470838,
+                    "recommended_strategy": "minimal_transfer"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.2,
+                  "adapted_learning_rate": 1.8768026767184018,
+                  "adapted_temperature": 20.263753383852695,
+                  "original_learning_rate": 1.2060115170479984,
+                  "original_temperature": 15.854552641519666,
+                  "transfer_strategy": "minimal_transfer"
+                }
+              },
+              {
+                "step": 4,
+                "adaptation_quality": 0.3737393157383366,
+                "meta_beliefs": {
+                  "task_novelty": 0.556206263529162,
+                  "most_similar_task": "meta_task_1",
+                  "task_similarity_scores": {
+                    "meta_task_1": 0.443793736470838
+                  },
+                  "expected_adaptation_difficulty": 0.556206263529162,
+                  "transfer_recommendations": {
+                    "use_transfer": true,
+                    "source_task": "meta_task_1",
+                    "similarity_score": 0.443793736470838,
+                    "recommended_strategy": "minimal_transfer"
+                  }
+                },
+                "adaptation_result": {
+                  "adaptation_strength": 0.2,
+                  "adapted_learning_rate": 2.920692080917474,
+                  "adapted_temperature": 25.899166661207254,
+                  "original_learning_rate": 1.8768026767184018,
+                  "original_temperature": 20.263753383852695,
+                  "transfer_strategy": "minimal_transfer"
+                }
+              }
+            ],
+            "final_adaptation_quality": 0.3737393157383366,
+            "adaptation_time": 0.0003113746643066406,
+            "task_representation": {
+              "task_id": "meta_task_2",
+              "obs_stats": {
+                "mean": "[ 0.05764889  0.62901754 -0.29349852 -0.17306873  0.10616751 -0.65470318\n -0.42884006 -0.61340077]",
+                "std": "[0.48122737 0.82289012 0.51726067 0.434714   0.62992858 0.59880645\n 0.39341406 0.72445944]",
+                "range": "[1.12585095 2.00993204 1.24953967 0.93585857 1.522173   1.41563004\n 0.9391802  1.76115986]"
+              },
+              "task_embedding": "[ 0.05764889  0.62901754 -0.29349852 -0.17306873  0.10616751  0.48122737\n  0.82289012  0.51726067  0.434714    0.62992858]",
+              "created_time": 1756186625.5900548
+            }
+          }
+        ],
+        "statistics": {
+          "n_tasks_encountered": 2,
+          "n_adaptations": 2,
+          "avg_adaptation_speed": 5.0,
+          "avg_transfer_efficiency": 0.31345912933846315,
+          "avg_meta_prediction_error": 0.0,
+          "task_representations": [
+            "meta_task_1",
+            "meta_task_2"
+          ],
+          "meta_learning_rate": 0.01
+        },
+        "success": true
+      },
+      "quantum": {
+        "quantum_updates": 3,
+        "statistics": {
+          "n_qubits": 6,
+          "coherence_time": 1.0,
+          "avg_coherence_decay": 0.48523347926200006,
+          "avg_entanglement": 0,
+          "current_entanglement_matrix": [
+            [
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "quantum_advantage_score": 0.3088599124427999
+        },
+        "success": true
+      },
+      "multimodal": {
+        "multimodal_processing": 3,
+        "statistics": {
+          "modalities": [
+            "visual",
+            "auditory",
+            "proprioceptive"
+          ],
+          "attention_mechanism": "dynamic",
+          "current_attention_weights": {
+            "visual": 0.3333333333333333,
+            "auditory": 0.3333333333333333,
+            "proprioceptive": 0.3333333333333333
+          },
+          "avg_integration_quality": 0.8567423147291139,
+          "modality_contributions": {
+            "visual": {
+              "avg_contribution": 0.2855807715763713,
+              "current_attention_weight": 0.3333333333333333,
+              "agent_performance": 0,
+              "agent_health": "healthy"
+            },
+            "auditory": {
+              "avg_contribution": 0.2855807715763713,
+              "current_attention_weight": 0.3333333333333333,
+              "agent_performance": 0,
+              "agent_health": "healthy"
+            },
+            "proprioceptive": {
+              "avg_contribution": 0.2855807715763713,
+              "current_attention_weight": 0.3333333333333333,
+              "agent_performance": 0,
+              "agent_health": "healthy"
+            }
+          },
+          "cross_modal_learning_events": 3,
+          "attention_stability": 1.0
+        },
+        "success": true
+      }
+    },
+    "benchmarks": {
+      "processing_speeds": {
+        "compositional": 0.00011348724365234375,
+        "causal": 3.0994415283203125e-06,
+        "ewc": 2.1457672119140625e-06,
+        "memory": 2.6226043701171875e-06,
+        "progressive": 1.9073486328125e-06,
+        "meta": 2.384185791015625e-06,
+        "quantum": 2.6226043701171875e-06,
+        "multimodal": 7.152557373046875e-07
+      },
+      "memory_usage": {
+        "hscai": 48,
+        "compositional": 48,
+        "causal": 48,
+        "ewc": 48,
+        "memory": 48,
+        "progressive": 48,
+        "hierarchical": 48,
+        "meta": 48,
+        "quantum": 48,
+        "multimodal": 48
+      },
+      "accuracy_metrics": {},
+      "scalability_tests": {},
+      "error": "observation has shape (8,), expected (8.08,)",
+      "success": false
+    }
+  },
+  "summary": {
+    "total_architectures_tested": 10,
+    "successful_architectures": 2,
+    "failed_architectures": 4,
+    "key_achievements": [
+      "Hybrid Symbolic-Connectionist reasoning operational",
+      "Compositional skill learning and execution",
+      "Elastic Weight Consolidation for continual learning",
+      "Memory-augmented learning with episodic replay"
+    ],
+    "performance_highlights": {},
+    "areas_for_improvement": []
+  },
+  "timestamp": 1756186627.3110697
+}
