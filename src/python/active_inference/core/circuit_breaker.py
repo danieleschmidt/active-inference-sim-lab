@@ -127,16 +127,25 @@ class CircuitBreaker(Generic[T]):
             try:
                 result = func(*args, **kwargs)
                 self._record_success()
+                # Check state transitions after success
+                self._check_state_transitions()
                 return result
                 
             except Exception as e:
                 self._record_failure(e)
+                # Check state transitions after failure
+                self._check_state_transitions()
                 raise
     
     def _check_state_transitions(self):
         """Check and handle state transitions."""
         current_time = time.time()
         
+        # Check if we should open (too many failures) - check first for immediate response
+        if self.state == CircuitState.CLOSED and self.failure_count >= self.config.failure_threshold:
+            self._transition_to_open("Failure threshold exceeded")
+            return
+            
         if self.state == CircuitState.OPEN:
             # Check if we should try half-open
             if (current_time - self.last_failure_time) >= self.config.timeout:
@@ -146,14 +155,12 @@ class CircuitBreaker(Generic[T]):
             # Check if we should close (enough successes)
             if self.success_count >= self.config.success_threshold:
                 self._transition_to_closed()
-            # Check if we should open again (recovery timeout)
+            # Check if failure occurred - transition back to open immediately
+            elif self.failure_count > 0:
+                self._transition_to_open("Half-open failure")
+            # Check recovery timeout
             elif (current_time - self.last_failure_time) >= self.config.recovery_timeout:
                 self._transition_to_open("Recovery timeout exceeded")
-                
-        elif self.state == CircuitState.CLOSED:
-            # Check if we should open (too many failures)
-            if self.failure_count >= self.config.failure_threshold:
-                self._transition_to_open("Failure threshold exceeded")
     
     def _record_success(self):
         """Record successful function call."""
@@ -173,8 +180,9 @@ class CircuitBreaker(Generic[T]):
         self.total_failures += 1
         self.last_failure_time = time.time()
         
-        # Reset success count on failure
-        self.success_count = 0
+        # Only reset success count in half-open state to prevent close->open loop
+        if self.state == CircuitState.HALF_OPEN:
+            self.success_count = 0
         
         logger.warning(f"Circuit '{self.name}' failure recorded: {exception} (count: {self.failure_count})")
     
@@ -287,6 +295,8 @@ class CircuitBreaker(Generic[T]):
         """Manually force circuit to OPEN state."""
         with self._lock:
             self._transition_to_open(reason)
+            # Set last_failure_time to current time to prevent immediate half-open transition
+            self.last_failure_time = time.time()
     
     def force_closed(self, reason: str = "Manual override"):
         """Manually force circuit to CLOSED state."""
