@@ -1,484 +1,164 @@
-# active-inference-sim-lab
+# Active Inference Sim Lab
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/your-org/active-inference-sim-lab/ci.yml?branch=main)](https://github.com/your-org/active-inference-sim-lab/actions)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![C++](https://img.shields.io/badge/C++-17-blue.svg)](https://isocpp.org/)
-[![Python](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+A minimal, dependency-light Python toolkit implementing active inference agents based on Karl Friston's **Free Energy Principle (FEP)**.  No PyTorch, no TensorFlow — just NumPy and SciPy.
 
-Lightweight toolkit for building active inference agents based on the Free Energy Principle. Includes C++ core for performance, Python bindings for ease of use, and integration with popular RL environments. Achieves human-level Atari performance with 10x less data than PPO.
+---
 
-## 🎯 Key Features
-
-- **Fast C++ Core**: Optimized implementation of active inference algorithms
-- **Free Energy Minimization**: Principled approach to perception and action
-- **Belief-Based Planning**: Agents that model uncertainty explicitly
-- **MuJoCo Integration**: Physics simulation support out of the box
-- **AXIOM Compatibility**: Reproduce published results from Wired article
-- **Minimal Dependencies**: Runs on edge devices with <100MB memory
-
-## 📋 Table of Contents
-
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Core Concepts](#core-concepts)
-- [Agent Design](#agent-design)
-- [Environments](#environments)
-- [Training](#training)
-- [Benchmarks](#benchmarks)
-- [Visualization](#visualization)
-- [API Reference](#api-reference)
-- [Contributing](#contributing)
-
-## 🚀 Installation
-
-### From PyPI
+## Quick Start
 
 ```bash
-pip install active-inference-sim-lab
+# Run the demo (5-state grid world, 100 steps)
+~/anaconda3/bin/python3 demo.py
+
+# Run tests
+~/anaconda3/bin/python3 -m pytest tests/test_fep_core.py -v
 ```
 
-### From Source (with C++ optimizations)
+---
 
-```bash
-# Clone repository
-git clone https://github.com/your-org/active-inference-sim-lab
-cd active-inference-sim-lab
+## Theory: Free Energy Principle
 
-# Build C++ core
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-cd ..
+### 1. Generative Model
 
-# Install Python package
-pip install -e .
+The agent maintains a generative model of its environment encoding the joint distribution:
+
+$$P(o, s) = P(o \mid s) \cdot P(s)$$
+
+Parameters:
+- **A** `[n_obs × n_states]` — Likelihood matrix: $A_{os} = P(o \mid s)$
+- **B** `[n_states × n_states × n_actions]` — Transition tensor: $B_{s's,a} = P(s' \mid s, a)$
+- **D** `[n_states]` — Prior over hidden states: $D_s = P(s)$
+- **C** `[n_obs]` — Log-preferences over observations: $C_o = \log \tilde{P}(o)$
+
+### 2. Variational Free Energy
+
+The **variational free energy** $F$ upper-bounds the surprise $-\log P(o)$:
+
+$$F = \underbrace{D_\text{KL}[q(s) \,\|\, P(s)]}_{\text{complexity}} - \underbrace{\mathbb{E}_{q}[\log P(o \mid s)]}_{\text{accuracy}}$$
+
+where $q(s)$ is the agent's posterior belief.  Minimising $F$ drives the agent to hold beliefs that are both accurate (explain observations) and parsimonious (close to prior).
+
+**Variational inference** (mean-field):
+
+$$q(s) = \sigma\!\left(\log A_{o,:} + \log D\right)$$
+
+where $\sigma$ denotes the softmax function.
+
+### 3. Expected Free Energy (Action Selection)
+
+The agent selects actions by minimising **Expected Free Energy** $G(a)$:
+
+$$G(a) = \underbrace{-\sum_o P(o \mid a)\,H[P(s \mid o, a)]}_{\text{epistemic value}} + \underbrace{D_\text{KL}[P(o \mid a) \,\|\, \tilde{P}(o)]}_{\text{pragmatic value}}$$
+
+- **Epistemic value**: expected information gain — the agent is curious and resolves uncertainty.
+- **Pragmatic value**: KL divergence from preferred outcomes — the agent is goal-directed.
+
+Action probabilities:
+
+$$P(a) = \sigma(-\alpha \cdot G(a))$$
+
+where $\alpha$ is the precision (inverse temperature).
+
+---
+
+## Package Structure
+
+```
+active_inference/
+├── __init__.py           # Public API
+├── generative_model.py   # GenerativeModel — P(o,s) = P(o|s)*P(s)
+├── free_energy.py        # VariationalFreeEnergy — F and G computation
+├── agent.py              # ActiveInferenceAgent — infer/act/update loop
+└── envs.py               # GridWorld1D — 5-state 1-D demo environment
+
+demo.py                   # End-to-end demo (run me!)
+tests/
+└── test_fep_core.py      # 27 pytest tests
 ```
 
-### Docker Installation
+---
 
-```bash
-docker pull your-org/active-inference-lab:latest
-docker run -it --rm your-org/active-inference-lab:latest
-```
+## Core API
 
-## ⚡ Quick Start
-
-### Basic Active Inference Agent
+### `GenerativeModel`
 
 ```python
-from active_inference import ActiveInferenceAgent, FreeEnergyObjective
+from active_inference import GenerativeModel
 
-# Create agent with generative model
-agent = ActiveInferenceAgent(
-    state_dim=4,        # Hidden state dimensions
-    obs_dim=8,          # Observation dimensions  
-    action_dim=2,       # Action dimensions
-    inference_method="variational"  # or "particle", "kalman"
-)
+model = GenerativeModel(A=A, B=B, D=D, C=C)
 
-# Define free energy objective
-objective = FreeEnergyObjective(
-    complexity_weight=1.0,   # KL divergence weight
-    accuracy_weight=1.0      # Log likelihood weight
-)
+# P(o | s)
+p = model.likelihood(obs=2, state=3)
 
-# Run inference loop
-obs = env.reset()
-for _ in range(1000):
-    # Perception: Infer hidden states
-    beliefs = agent.infer_states(obs)
-    
-    # Action: Minimize expected free energy
-    action = agent.plan_action(beliefs, horizon=5)
-    
-    # Execute and observe
-    obs, reward = env.step(action)
-    
-    # Update generative model
-    agent.update_model(obs, action)
+# P(s)
+p = model.prior(state=1)
+
+# Variational posterior q(s) given observation
+q_s = model.infer_states(obs=2)   # shape (n_states,)
 ```
 
-### AXIOM-style Agent
+### `VariationalFreeEnergy`
 
 ```python
-from active_inference.axiom import AXIOMAgent
+from active_inference import VariationalFreeEnergy
 
-# Reproduce AXIOM's 3-minute Pong mastery
-agent = AXIOMAgent(
-    env_name="PongNoFrameskip-v4",
-    belief_depth=3,          # Hierarchical depth
-    planning_horizon=20,     # Lookahead steps
-    learning_rate=0.01
-)
+# Variational free energy F
+F = VariationalFreeEnergy.compute(q_s, obs=2, model=model)
 
-# Train with minimal data
-agent.train(
-    num_episodes=10,  # Only 10 episodes!
-    render=True
-)
-
-print(f"Final score: {agent.evaluate()}")
-# Output: Final score: 21.0 (perfect game)
+# Expected free energy G(a) for action selection
+G = VariationalFreeEnergy.expected_free_energy(q_s, action=2, model=model)
 ```
 
-## 🧠 Core Concepts
-
-### Free Energy Principle
+### `ActiveInferenceAgent`
 
 ```python
-from active_inference.core import GenerativeModel, FreeEnergy
+from active_inference import ActiveInferenceAgent
 
-# Define generative model p(o,s,a)
-model = GenerativeModel()
+agent = ActiveInferenceAgent(model, alpha=4.0)
 
-# Prior beliefs p(s)
-model.add_prior(
-    "location",
-    distribution="gaussian",
-    params={"mean": 0, "variance": 1}
-)
-
-# Likelihood p(o|s)
-model.add_likelihood(
-    "visual",
-    function=lambda s: gaussian(obs, f(s), sigma)
-)
-
-# Transition dynamics p(s'|s,a)
-model.add_dynamics(
-    function=lambda s, a: s + a + noise
-)
-
-# Compute free energy
-F = FreeEnergy(model)
-free_energy = F.compute(observations, beliefs)
+q_s    = agent.infer_states(obs)    # update posterior
+action = agent.select_action()      # pick action minimising G
+agent.update_beliefs(obs, action)   # shift prior + update posterior
 ```
 
-### Belief Updating
+---
 
-```python
-from active_inference.inference import BeliefUpdater
+## Demo: 5-State Grid World
 
-# Variational inference for beliefs
-updater = BeliefUpdater(
-    method="variational",
-    num_iterations=10,
-    learning_rate=0.1
-)
+The demo places an agent in a 1-D grid:
 
-# Update beliefs given observations
-posterior = updater.update(
-    prior_beliefs=beliefs,
-    observations=obs,
-    model=generative_model
-)
-
-# Access uncertainty
-print(f"State estimate: {posterior.mean}")
-print(f"Uncertainty: {posterior.variance}")
+```
+States:   [0] — [1] — [2] — [3] — [4★]
+Actions:  0=← left   1=stay   2=→ right
+Goal:     reach state 4
+Obs:      noisy state readout (P(o=s|s) = 0.9)
 ```
 
-### Active Planning
+The agent navigates from state 0 to state 4 purely by minimising Expected Free Energy — no reward signal, no gradient descent.
 
-```python
-from active_inference.planning import ActivePlanner
-
-# Plan actions to minimize expected free energy
-planner = ActivePlanner(
-    horizon=10,
-    num_trajectories=100,
-    objective="expected_free_energy"
-)
-
-# Components of expected free energy
-G = planner.compute_expected_free_energy(
-    beliefs=current_beliefs,
-    policy=candidate_policy
-)
-
-print(f"Epistemic value: {G.epistemic}")  # Information gain
-print(f"Pragmatic value: {G.pragmatic}")  # Goal achievement
-print(f"Total EFE: {G.total}")
+Sample output:
+```
+Step  TrueState  MAP                    Belief (q_s)        F  Action
+   1          1    1  0.00 1.00 0.00 0.00 0.00    0.161  right→
+   ...
+   7          4    4  0.00 0.00 0.00 0.00 1.00    0.169  right→
+  ✓ Goal reached at step 7!
+  Mean belief at goal (last 10 steps): 0.9643
+  ✓ Agent successfully converged toward goal state.
 ```
 
-## 🤖 Agent Design
+---
 
-### Hierarchical Agents
+## Dependencies
 
-```python
-from active_inference.hierarchical import HierarchicalAgent
+- Python ≥ 3.10
+- NumPy ≥ 1.24
+- SciPy ≥ 1.10 (optional, not yet used directly)
 
-# Multi-level active inference
-agent = HierarchicalAgent(
-    levels=[
-        {"name": "high", "state_dim": 2, "time_scale": 10},
-        {"name": "mid", "state_dim": 4, "time_scale": 5},
-        {"name": "low", "state_dim": 8, "time_scale": 1}
-    ]
-)
+---
 
-# Each level minimizes free energy at different time scales
-for level in agent.levels:
-    level.infer_states(obs)
-    level.send_predictions_down()
-    level.send_errors_up()
-```
+## References
 
-### Custom Generative Models
-
-```python
-from active_inference import GenerativeModelBuilder
-
-# Build domain-specific model
-builder = GenerativeModelBuilder()
-
-# Object-centric representation
-builder.add_object_slots(num_slots=5)
-
-# Relational dynamics
-builder.add_relation_network(
-    object_dim=64,
-    relation_dim=128
-)
-
-# Compositional likelihood
-builder.add_compositional_decoder()
-
-model = builder.build()
-```
-
-### Intrinsic Motivation
-
-```python
-from active_inference.curiosity import CuriosityDriven
-
-# Add intrinsic motivation
-curious_agent = CuriosityDriven(
-    base_agent=agent,
-    curiosity_weight=0.1,
-    novelty_measure="model_uncertainty"
-)
-
-# Agent seeks observations that reduce model uncertainty
-action = curious_agent.act(obs)
-# Naturally explores until confident, then exploits
-```
-
-## 🌍 Environments
-
-### Built-in Environments
-
-```python
-from active_inference.envs import (
-    MountainCar,      # Classic control
-    VisualGridWorld,  # Pixel observations
-    ObjectManipulation,  # 3D physics
-    SocialDilemma    # Multi-agent
-)
-
-# Active inference specific environments
-env = VisualGridWorld(
-    size=10,
-    partial_observability=True,
-    uncertainty_regions=[(3,3), (7,7)]
-)
-
-# Designed to test belief-based reasoning
-obs = env.reset()
-info = env.get_info()
-print(f"True state: {info['true_state']}")
-print(f"Uncertainty: {info['observation_noise']}")
-```
-
-### Gym Integration
-
-```python
-import gymnasium as gym
-from active_inference.wrappers import GymWrapper
-
-# Wrap any Gym environment
-gym_env = gym.make("CartPole-v1")
-env = GymWrapper(
-    gym_env,
-    add_model_uncertainty=True,
-    belief_based_reward=True
-)
-
-# Now compatible with active inference
-agent = ActiveInferenceAgent.from_env(env)
-```
-
-### MuJoCo Physics
-
-```python
-from active_inference.mujoco import MuJoCoActiveInference
-
-# Physics-based active inference
-env = MuJoCoActiveInference(
-    xml_file="humanoid.xml",
-    proprioceptive_noise=0.01,
-    visual_occlusion=True
-)
-
-# Agent must use proprioception + vision
-agent = ActiveInferenceAgent(
-    modalities=["proprioceptive", "visual"],
-    sensor_fusion="product_of_experts"
-)
-```
-
-## 🎓 Training
-
-### Standard Training Loop
-
-```python
-from active_inference.training import Trainer
-
-trainer = Trainer(
-    agent=agent,
-    env=env,
-    config={
-        "num_episodes": 1000,
-        "max_steps_per_episode": 500,
-        "model_learning_rate": 0.001,
-        "inference_iterations": 10,
-        "save_frequency": 100
-    }
-)
-
-# Train with logging
-history = trainer.train(
-    callbacks=[
-        "tensorboard",
-        "model_checkpoint",
-        "early_stopping"
-    ]
-)
-
-# Plot learning curves
-trainer.plot_history(history)
-```
-
-### Curriculum Learning
-
-```python
-from active_inference.curriculum import CurriculumTrainer
-
-# Gradually increase complexity
-curriculum = CurriculumTrainer(
-    agent=agent,
-    stages=[
-        {"env": "MountainCar-v0", "episodes": 100},
-        {"env": "CartPole-v1", "episodes": 200},
-        {"env": "Acrobot-v1", "episodes": 300}
-    ]
-)
-
-curriculum.train()
-```
-
-### Meta-Learning
-
-```python
-from active_inference.meta import MetaActiveInference
-
-# Learn to learn new tasks quickly
-meta_agent = MetaActiveInference(
-    base_agent_class=ActiveInferenceAgent,
-    meta_batch_size=16,
-    inner_steps=5,
-    outer_learning_rate=0.001
-)
-
-# Train on task distribution
-task_distribution = TaskDistribution("navigation")
-meta_agent.meta_train(task_distribution, episodes=1000)
-
-# Adapt to new task in few shots
-new_task = task_distribution.sample()
-adapted_agent = meta_agent.adapt(new_task, shots=10)
-```
-
-## 📊 Benchmarks
-
-### Performance Comparison
-
-```python
-from active_inference.benchmarks import BenchmarkSuite
-
-suite = BenchmarkSuite()
-
-# Compare against baselines
-results = suite.run_comparative_benchmark(
-    agents={
-        "active_inference": ActiveInferenceAgent(),
-        "ppo": PPOBaseline(),
-        "dqn": DQNBaseline(),
-        "random": RandomBaseline()
-    },
-    environments=[
-        "CartPole-v1",
-        "MountainCar-v0", 
-        "LunarLander-v2"
-    ],
-    num_seeds=10
-)
-
-suite.plot_results(results, metric="sample_efficiency")
-```
-
-### AXIOM Reproduction
-
-```python
-from active_inference.benchmarks import AXIOMBenchmark
-
-# Reproduce published results
-benchmark = AXIOMBenchmark()
-
-results = benchmark.reproduce_paper_results(
-    games=["pong", "breakout", "space_invaders"],
-    training_minutes=3  # Yes, really!
-)
-
-print(f"Pong score after 3 min: {results['pong'].final_score}")
-# Output: 21.0 (matching paper)
-```
-
-### Sample Efficiency Results
-
-| Environment | Active Inference | PPO | DQN | Relative Efficiency |
-|-------------|------------------|-----|-----|---------------------|
-| CartPole | 50 episodes | 200 | 500 | 4-10x |
-| MountainCar | 80 episodes | 1000 | 2000 | 12-25x |
-| Atari Pong | 10 episodes | 1000 | 5000 | 100-500x |
-
-## 📈 Visualization
-
-### Belief Evolution
-
-```python
-from active_inference.visualization import BeliefVisualizer
-
-viz = BeliefVisualizer()
-
-# Animate belief updates
-viz.animate_beliefs(
-    trajectory=agent.history,
-    features=["position", "velocity"],
-    output="belief_evolution.mp4"
-)
-
-# Plot uncertainty over time
-viz.plot_uncertainty(
-    agent.uncertainty_history,
-    title="Epistemic Uncertainty Reduction"
-)
-```
-
-### Free Energy Decomposition
-
-```python
-from active_inference.visualization import FreeEnergyVisualizer
-
-# Visualize free energy components
-viz = Free
+- Friston, K. J. (2010). *The free-energy principle: a unified brain theory?* Nature Reviews Neuroscience, 11, 127–138.
+- Friston, K., et al. (2017). *Active inference and epistemic value.* Cognitive Neuroscience, 8(4), 187–209.
+- Da Costa, L., et al. (2020). *Active inference on discrete state-spaces: a synthesis.* Journal of Mathematical Psychology, 99, 102447.
