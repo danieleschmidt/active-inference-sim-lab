@@ -37,7 +37,7 @@ dependencies = [
     "matplotlib>=3.7.0",
     "gymnasium>=0.29.0",
     "pybind11>=2.11.0",
-    "tqdm>=4.66.0",
+    "tqdm>=4.67.3",
     "pyyaml>=6.0.1",
     "tensorboard>=2.14.0",
 ]
