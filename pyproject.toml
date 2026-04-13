@@ -61,7 +61,7 @@ mujoco = [
     "dm-control>=1.0.0",
 ]
 visualization = [
-    "plotly>=5.0.0",
+    "plotly>=6.7.0",
     "dash>=2.0.0",
     "opencv-python>=4.6.0",
 ]
